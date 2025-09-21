@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vinícius Silva | Portfólio</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        xintegrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+b+A3uP97Pgg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+</head>
+
+<body>
+    <div id="loading-screen">
+        <div class="loader-content">
+            <img src="img/Vini.png" alt="Foto de Perfil" class="loader-photo">
+            <h2 class="loader-name">Vinícius Silva</h2>
+        </div>
+        <div class="loader-pulse-dot"></div>
+    </div>
+
+    <header id="menu-bar">
+        <nav>
+            <div class="app-info">
+                <span class="app-icon"><i class="fa-solid fa-code"></i></span>
+                <span class="app-name">Portfolio</span>
+            </div>
+            <div class="menu-items">
+                <span class="menu-item active">Início</span>
+                <span class="menu-item">Arquivo</span>
+                <span class="menu-item">Editar</span>
+            </div>
+            <div class="system-icons">
+                <i class="fa-solid fa-wifi"></i>
+                <i class="fa-solid fa-moon dark-mode-icon" id="theme-toggle"></i>
+                <i class="fa-solid fa-bell"></i>
+                <span class="current-time" id="current-time"></span>
+            </div>
+        </nav>
+    </header>
+
+    <main class="desktop">
+        <div class="desktop-icon-container">
+            <div class="desktop-icon" id="projects-icon">
+                <i class="fa-solid fa-folder-open icon-large"></i>
+                <span>Projetos</span>
+            </div>
+            <div class="desktop-icon" id="contact-icon">
+                <i class="fa-solid fa-envelope icon-large"></i>
+                <span>Contato</span>
+            </div>
+            <div class="desktop-icon" id="about-icon">
+                <i class="fa-solid fa-user icon-large"></i>
+                <span>Sobre Mim</span>
+            </div>
+            <div class="desktop-icon" id="notes-icon">
+                <i class="fa-solid fa-note-sticky icon-large"></i>
+                <span>Currículo</span>
+            </div>
+            <div class="desktop-icon" id="tech-icon">
+                <i class="fa-solid fa-microchip icon-large"></i>
+                <span>Tecnologias</span>
+            </div>
+            <div class="desktop-icon" id="trash-icon">
+                <i class="fa-solid fa-trash icon-large"></i>
+                <span>Lixeira</span>
+            </div>
+        </div>
+
+        <div id="projects-window" class="window glassmorphism">
+            <div class="window-header">
+                <div class="window-buttons">
+                    <span class="window-button close-btn" data-target="projects-window"></span>
+                    <span class="window-button minimize-btn"></span>
+                    <span class="window-button maximize-btn"></span>
+                </div>
+                <div class="window-title">
+                    <i class="fa-solid fa-folder-open"></i>
+                    <span>Projetos</span>
+                </div>
+            </div>
+            <div class="window-content">
+                <div class="content-list">
+                    <div class="list-item">
+                        <i class="fa-brands fa-python"></i>
+                        <h3>AVLIS - PDV</h3>
+                        <p>Sistema de ponto de venda em Electron e Python.</p>
+                        <a href="https://avlis-pdv.onrender.com/" target="_blank" class="window-action-btn">
+                            Abrir <i class="fa-solid fa-up-right-from-square"></i>
+                        </a>
+                    </div>
+                    <div class="list-item">
+                        <i class="fa-solid fa-chart-line"></i>
+                        <h3>Em Desenvolvimento</h3>
+                        <p>App de finanças com IA, dashboards e análise de dados.</p>
+                        <a href="https://financeapp-frontend.onrender.com/" class="window-action-btn">
+                            Abrir <i class="fa-solid fa-up-right-from-square"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="contact-window" class="window glassmorphism">
+            <div class="window-header">
+                <div class="window-buttons">
+                    <span class="window-button close-btn" data-target="contact-window"></span>
+                    <span class="window-button minimize-btn"></span>
+                    <span class="window-button maximize-btn"></span>
+                </div>
+                <div class="window-title">
+                    <i class="fa-solid fa-envelope"></i>
+                    <span>Contato</span>
+                </div>
+            </div>
+            <div class="window-content">
+                <ul class="contact-list">
+                    <li>
+                        <a href="#" class="contact-link open-notes">
+                            <i class="fa-solid fa-file-pdf"></i>
+                            <span>Currículo</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.linkedin.com/in/viniciuseduardolima/" target="_blank" class="contact-link">
+                            <i class="fa-brands fa-linkedin-in"></i>
+                            <span>LinkedIn</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/ayaycabron" target="_blank" class="contact-link">
+                            <i class="fa-brands fa-github"></i>
+                            <span>GitHub</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="about-window" class="window glassmorphism">
+            <div class="window-header">
+                <div class="window-buttons">
+                    <span class="window-button close-btn" data-target="about-window"></span>
+                    <span class="window-button minimize-btn"></span>
+                    <span class="window-button maximize-btn"></span>
+                </div>
+                <div class="window-title">
+                    <i class="fa-solid fa-user"></i>
+                    <span>Sobre mim</span>
+                </div>
+            </div>
+            <div class="window-content about-content">
+                <img src="img/Vini.png" alt="Foto de Perfil" class="about-photo">
+                <h2>Vinícius Silva</h2>
+                <p>Desenvolvedor Full-Stack</p>
+                <hr>
+                <p>Olá! Sou um desenvolvedor full-stack apaixonado por criar soluções digitais que sejam bonitas,
+                    funcionais e intuitivas. Tenho experiência em tecnologias como Electron, Python e JavaScript, e
+                    estou sempre em busca de novos desafios para aprimorar minhas habilidades e entregar produtos de
+                    alta qualidade.</p>
+            </div>
+        </div>
+
+        <div id="notes-window" class="window glassmorphism">
+            <div class="window-header">
+                <div class="window-buttons">
+                    <span class="window-button close-btn" data-target="notes-window"></span>
+                    <span class="window-button minimize-btn"></span>
+                    <span class="window-button maximize-btn"></span>
+                </div>
+                <div class="window-title">
+                    <i class="fa-solid fa-note-sticky"></i>
+                    <span>Currículo - Vinícius Silva</span>
+                </div>
+            </div>
+            <div class="window-content notes-content">
+                <div class="notes-header">
+                    <h2>VINICIUS SILVA</h2>
+                    <p>Curitiba, PR</p>
+                    <p>eduardovinicius1701@gmail.com | +55 41 98480 2813</p>
+                </div>
+
+                <div class="notes-section">
+                    <h3><i class="fa-solid fa-user-tie"></i> Resumo Profissional</h3>
+                    <p>Profissional multifacetado com expertise em gestão de infraestrutura de TI, outsourcing de ativos
+                        e análise de dados. Sólida experiência em manutenção de hardware e software, monitoramento de
+                        servidores e redes, e otimização de estoque. Proficiente em Python (Flask) e Node.js (Vite) para
+                        desenvolvimento web, com habilidade na criação de dashboards (BI) e manuseio de bancos de dados
+                        MySQL e PostgreSQL. Suporte técnico e relacionamento com clientes e fornecedores, garantindo a
+                        eficiência operacional e a tomada de decisão estratégica.</p>
+                </div>
+
+                <div class="notes-section">
+                    <h3><i class="fa-solid fa-info-circle"></i> Detalhes Pessoais</h3>
+                    <ul>
+                        <li><strong>Atualmente Empregado:</strong> Não</li>
+                        <li><strong>Nível de escolaridade:</strong> Ensino Superior cursando ou interrompido</li>
+                        <li><strong>Setor:</strong> Administrativa, Instalação e Manutenção, TI - Design e Documentação,
+                            TI - Suporte e Operações</li>
+                        <li><strong>Total de anos de experiência:</strong> 7</li>
+                    </ul>
+                </div>
+
+                <div class="notes-section">
+                    <h3><i class="fa-solid fa-briefcase"></i> Experiência Profissional</h3>
+
+                    <div class="experience-item">
+                        <h4>CLOUDFY TECNOLOGIA - Curitiba, PR</h4>
+                        <p class="experience-period">abril de 2023 a agosto de 2024</p>
+                        <p>Gerenciamento end-to-end do ciclo de vida de implantação de sistemas, abrangendo desde a
+                            análise de requisitos até a entrega final.</p>
+                        <ul>
+                            <li><strong>Infraestrutura e Banco de Dados:</strong> Projeção, configuração e manutenção de
+                                ambientes de banco de dados MySQL e PostgreSQL, garantindo performance, segurança e
+                                integridade dos dados. Execução de rotinas de ETL (Extract, Transform, Load) para
+                                importação e normalização de produtos e dados fiscais de diversas fontes, assegurando a
+                                consistência da informação. Otimização de queries e monitoramento de clusters de bancos
+                                de dados para identificar e resolver gargalos de performance.</li>
+                            <li><strong>Desenvolvimento e Integração:</strong> Criação e deployment de totens de
+                                autoatendimento e cardápios digitais, utilizando tecnologias web e frameworks modernos.
+                                Desenvolvimento e manutenção de APIs e conectores para integração fluida com sistemas
+                                legados (ERPs, PDVs, etc.) e plataformas de terceiros. Automação de processos de
+                                deployment e configuração via scripts e ferramentas de IaC (Infrastructure as Code).
+                            </li>
+                            <li><strong>Suporte e Treinamento ao Cliente:</strong> Atuação como ponto focal técnico,
+                                prestando suporte especializado e resolvendo incidentes complexos durante e após a
+                                implantação. Condução de treinamentos técnicos e operacionais para usuários finais e
+                                equipes internas dos clientes, garantindo a autonomia e o uso eficaz das soluções
+                                implementadas. Elaboração de documentação técnica (manuais, runbooks, especificações)
+                                para subsidiar o uso e a manutenção dos sistemas.</li>
+                        </ul>
+                    </div>
+
+                    <div class="experience-item">
+                        <h4>Simpress HP</h4>
+                        <p class="experience-period">2022 a 2023</p>
+                        <p><strong>Operador de Site Jr</strong></p>
+                        <ul>
+                            <li>Gestão de Outsourcing e Implementação de Ativos: Planejamento e mapeamento de áreas de
+                                instalação, homologação e configuração de equipamentos, deployment e suporte on-site.
+                            </li>
+                            <li>Análise de Dados e Otimização de Recursos: Desenvolvimento e aplicação de rotinas
+                                analíticas para aprimorar a gestão de insumos, coleta e análise de dados de consumo e
+                                elaboração de KPIs e dashboards.</li>
+                            <li>Suporte Técnico e Relacionamento com o Cliente: Atuação como ponto focal, suporte Nível
+                                1/2, elaboração de documentação técnica e garantia de cumprimento de SLAs.</li>
+                        </ul>
+                    </div>
+
+                    <div class="experience-item">
+                        <h4>Elco Engenharia</h4>
+                        <p class="experience-period">2020 a 2021</p>
+                        <p><strong>Auxiliar de TI</strong></p>
+                        <p>Analista de Suporte de TI e Operações: Atuação multifacetada na manutenção preventiva e
+                            corretiva de infraestrutura de TI, com foco na gestão proativa de ativos, monitoramento de
+                            sistemas e otimização de processos, garantindo a continuidade e a eficiência operacional.
+                        </p>
+                        <ul>
+                            <li>Manutenção e Gerenciamento de Ativos: Execução de manutenção preditiva, preventiva e
+                                corretiva em hardware, elaboração e alimentação de planilhas de controle de ativos e
+                                gestão estratégica de estoque de peças e insumos.</li>
+                        </ul>
+                    </div>
+
+                    <div class="experience-item">
+                        <h4>Sanepar - Departamento de Recursos</h4>
+                        <p class="experience-period">2018 a 2019</p>
+                        <p><strong>Auxiliar Administrativo</strong></p>
+                        <ul>
+                            <li>Gestão e Análise de Dados: Desenvolvimento e atualização de planilhas eletrônicas,
+                                implementação de fórmulas avançadas, tabelas dinâmicas e gráficos.</li>
+                            <li>Apoio Estratégico a Recursos Humanos: Suporte analítico e operacional, colaboração na
+                                coleta e processamento de informações e auxílio na elaboração de relatórios gerenciais.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="notes-section">
+                    <h3><i class="fa-solid fa-graduation-cap"></i> Escolaridade</h3>
+                    <div class="education-item">
+                        <h4>Pontificia Universidade Católica do Paraná - Curitiba, PR</h4>
+                        <p><strong>Graduação - ANÁLISE E DESENVOLVIMENTO DE SISTEMAS</strong></p>
+                        <p>março de 2023 a julho de 2025</p>
+                    </div>
+                </div>
+
+                <div class="notes-section">
+                    <h3><i class="fa-solid fa-star"></i> Habilidades e Competências</h3>
+                    <div class="skills-grid">
+                        <span class="skill-tag">Gerenciamento de banco de dados</span>
+                        <span class="skill-tag">Pesquisa</span>
+                        <span class="skill-tag">Hardware de computadores</span>
+                        <span class="skill-tag">Experiência administrativa</span>
+                        <span class="skill-tag">Conhecimento em informática</span>
+                        <span class="skill-tag">Manutenção</span>
+                        <span class="skill-tag">Python (3 anos)</span>
+                        <span class="skill-tag">Microsoft Office</span>
+                        <span class="skill-tag">Gestão de riscos</span>
+                        <span class="skill-tag">Liderança</span>
+                        <span class="skill-tag">Flutter (1 ano)</span>
+                        <span class="skill-tag">React (1 ano)</span>
+                        <span class="skill-tag">PostgreSQL (2 anos)</span>
+                        <span class="skill-tag">Atendimento ao cliente</span>
+                        <span class="skill-tag">Flask (1 ano)</span>
+                        <span class="skill-tag">Competências organizacionais</span>
+                    </div>
+                </div>
+
+                <div class="notes-section">
+                    <h3><i class="fa-solid fa-language"></i> Idiomas</h3>
+                    <p><strong>Inglês</strong> - Avançado</p>
+                </div>
+
+                <div class="notes-section">
+                    <h3><i class="fa-solid fa-link"></i> Links</h3>
+                    <ul>
+                        <li><strong>GitHub:</strong> <a href="https://github.com/AyayCabron"
+                                target="_blank">https://github.com/AyayCabron</a></li>
+                        <li><strong>FinanceApp:</strong> <a href="https://financeapp-frontend.onrender.com"
+                                target="_blank">https://financeapp-frontend.onrender.com</a></li>
+                    </ul>
+                </div>
+
+                <div class="notes-section">
+                    <h3><i class="fa-solid fa-certificate"></i> Certificações e Licenças</h3>
+                    <ul>
+                        <li>ANÁLISE DE DADOS NO POWER BI (junho de 2025 a Data Atual)</li>
+                        <li>SEGURANÇA EM TECNOLOGIA DA INFORMAÇÃO (junho de 2025 a Data Atual)</li>
+                        <li>INTERFACE GRÁFICA UTILIZANDO A LINGUAGEM PYTHON (junho de 2025 a Data Atual)</li>
+                        <li>AGRONOMIA 4.0 - CREA-PR (março de 2025 a Data Atual)</li>
+                        <li>Internet das Coisas (IoT) (março de 2025 a Data Atual)</li>
+                        <li>Compliance (março de 2025 a Data Atual)</li>
+                    </ul>
+                </div>
+
+                <div class="notes-section">
+                    <h3><i class="fa-solid fa-book"></i> Publicações</h3>
+                    <div class="publication-item">
+                        <h4>FinanceApp</h4>
+                        <p><a href="https://financeapp-frontend.onrender.com"
+                                target="_blank">https://financeapp-frontend.onrender.com</a></p>
+                        <p>junho de 2025</p>
+                        <p>Aplicação de gestão de finanças em fase de Desenvolvimento e Refinamento de MVP, com primeiro
+                            deployment realizado no Render e Railway. Desenvolvida com backend em Python (Flask) e
+                            frontend em Node.js (Vite + React), utilizando PostgreSQL como banco de dados e Alembic para
+                            migrações. A segurança é garantida pela criptografia JWT (JSON Web Tokens) para registro e
+                            autenticação de usuários. O sistema oferece funcionalidades robustas como gerenciamento de
+                            transações e contas, análise inteligente de gastos, integração com planilhas e dashboards
+                            para visualização de dados, além de listas personalizadas, uma calculadora inteligente com
+                            IA básica e definição de metas/objetivos. Atualmente, a ferramenta apresenta instabilidades
+                            pontuais em operações HTTP (POST/GET). Notavelmente, após a criação de uma nova categoria, é
+                            necessário um re-login para a visualização imediata da atualização, apesar da persistência
+                            bem-sucedida dos dados no banco de dados. As demais funcionalidades estão em fase de
+                            validação e otimização para operação plena.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <div id="tech-window" class="window glassmorphism">
+            <div class="window-header">
+                <div class="window-buttons">
+                    <span class="window-button close-btn" data-target="tech-window"></span>
+                    <span class="window-button minimize-btn"></span>
+                    <span class="window-button maximize-btn"></span>
+                </div>
+                <div class="window-title">
+                    <i class="fa-solid fa-microchip"></i>
+                    <span>Tecnologias</span>
+                </div>
+            </div>
+            <div class="window-content tech-content">
+                <h2>Tecnologias que Utilizo</h2>
+                <p class="tech-intro">Aqui estão as principais tecnologias e ferramentas com as quais trabalho:</p>
+
+                <div class="tech-category">
+                    <h3><i class="fa-solid fa-code"></i> Linguagens de Programação</h3>
+                    <div class="tech-grid">
+                        <div class="tech-item">
+                            <i class="fa-brands fa-python"></i>
+                            <span>Python</span>
+                            <div class="tech-level">
+                                <div class="tech-level-bar" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fa-brands fa-js"></i>
+                            <span>JavaScript</span>
+                            <div class="tech-level">
+                                <div class="tech-level-bar" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fa-brands fa-html5"></i>
+                            <span>HTML5</span>
+                            <div class="tech-level">
+                                <div class="tech-level-bar" style="width: 95%"></div>
+                            </div>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fa-brands fa-css3-alt"></i>
+                            <span>CSS3</span>
+                            <div class="tech-level">
+                                <div class="tech-level-bar" style="width: 90%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tech-category">
+                    <h3><i class="fa-solid fa-database"></i> Bancos de Dados</h3>
+                    <div class="tech-grid">
+                        <div class="tech-item">
+                            <i class="fa-solid fa-database"></i>
+                            <span>MySQL</span>
+                            <div class="tech-level">
+                                <div class="tech-level-bar" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fa-solid fa-database"></i>
+                            <span>PostgreSQL</span>
+                            <div class="tech-level">
+                                <div class="tech-level-bar" style="width: 80%"></div>
+                            </div>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fa-solid fa-fire"></i>
+                            <span>Firebase</span>
+                            <div class="tech-level">
+                                <div class="tech-level-bar" style="width: 75%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tech-category">
+                    <h3><i class="fa-solid fa-layer-group"></i> Frameworks & Bibliotecas</h3>
+                    <div class="tech-grid">
+                        <div class="tech-item">
+                            <i class="fa-brands fa-react"></i>
+                            <span>React</span>
+                            <div class="tech-level">
+                                <div class="tech-level-bar" style="width: 80%"></div>
+                            </div>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fa-solid fa-flask"></i>
+                            <span>Flask</span>
+                            <div class="tech-level">
+                                <div class="tech-level-bar" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fa-brands fa-node-js"></i>
+                            <span>Node.js</span>
+                            <div class="tech-level">
+                                <div class="tech-level-bar" style="width: 75%"></div>
+                            </div>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fa-brands fa-vuejs"></i>
+                            <span>Vite</span>
+                            <div class="tech-level">
+                                <div class="tech-level-bar" style="width: 80%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tech-category">
+                    <h3><i class="fa-solid fa-desktop"></i> Ferramentas & Plataformas</h3>
+                    <div class="tech-grid">
+                        <div class="tech-item">
+                            <i class="fa-brands fa-git-alt"></i>
+                            <span>Git</span>
+                            <div class="tech-level">
+                                <div class="tech-level-bar" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fa-brands fa-github"></i>
+                            <span>GitHub</span>
+                            <div class="tech-level">
+                                <div class="tech-level-bar" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fa-brands fa-docker"></i>
+                            <span>Docker</span>
+                            <div class="tech-level">
+                                <div class="tech-level-bar" style="width: 70%"></div>
+                            </div>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fa-solid fa-cloud"></i>
+                            <span>Render</span>
+                            <div class="tech-level">
+                                <div class="tech-level-bar" style="width: 80%"></div>
+                            </div>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fa-brands fa-microsoft"></i>
+                            <span>.NET</span>
+                            <div class="tech-level">
+                                <div class="tech-level-bar" style="width: 65%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tech-category">
+                    <h3><i class="fa-solid fa-mobile-alt"></i> Mobile & Desktop</h3>
+                    <div class="tech-grid">
+                        <div class="tech-item">
+                            <i class="fa-brands fa-android"></i>
+                            <span>Android</span>
+                            <div class="tech-level">
+                                <div class="tech-level-bar" style="width: 75%"></div>
+                            </div>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fa-brands fa-apple"></i>
+                            <span>iOS</span>
+                            <div class="tech-level">
+                                <div class="tech-level-bar" style="width: 70%"></div>
+                            </div>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fa-solid fa-window-maximize"></i>
+                            <span>Electron</span>
+                            <div class="tech-level">
+                                <div class="tech-level-bar" style="width: 80%"></div>
+                            </div>
+                        </div>
+                        <div class="tech-item">
+                            <i class="fa-brands fa-flutter"></i>
+                            <span>Flutter</span>
+                            <div class="tech-level">
+                                <div class="tech-level-bar" style="width: 75%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="trash-window" class="window glassmorphism">
+            <div class="window-header">
+                <div class="window-buttons">
+                    <span class="window-button close-btn" data-target="trash-window"></span>
+                    <span class="window-button minimize-btn"></span>
+                    <span class="window-button maximize-btn"></span>
+                </div>
+                <div class="window-title">
+                    <i class="fa-solid fa-trash"></i>
+                    <span>Lixeira</span>
+                </div>
+            </div>
+            <div class="window-content">
+                <div class="content-list">
+                    <div class="list-item">
+                        <i class="fa-solid fa-file"></i>
+                        <h3>Lixeira vazia</h3>
+                        <p>Arraste itens para a lixeira para excluí-los.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+<div id="snake-window" class="window glassmorphism">
+    <div class="window-header">
+        <div class="window-buttons">
+            <span class="window-button close-btn" data-target="snake-window"></span>
+            <span class="window-button minimize-btn"></span>
+            <span class="window-button maximize-btn"></span>
+        </div>
+        <div class="window-title">
+            <i class="fa-solid fa-gamepad"></i>
+            <span>Snake Game</span>
+        </div>
+    </div>
+
+    <div class="window-content window-body">
+        <canvas id="snake-canvas" width="400" height="400"></canvas>
+
+        <!-- Mensagem inicial -->
+        <p id="snake-message" class="snake-message">Clique em Start para iniciar</p>
+
+        <!-- Controles -->
+        <div class="snake-controls">
+            <button id="snake-start" class="glass-btn">Start</button>
+            <button id="snake-restart" class="glass-btn">Restart</button>
+        </div>
+
+        <div>
+            Score: <span id="snake-score">0</span> | Level: <span id="snake-level">1</span>
+        </div>
+    </div>
+</div>
+
+
+
+    </main>
+
+    <nav id="dock" class="glassmorphism">
+        <ul class="dock-items">
+            <li><button class="dock-item" data-target="projects-window"><i class="fa-solid fa-folder-open"></i></button>
+            </li>
+            <li><button class="dock-item" data-target="contact-window"><i class="fa-solid fa-envelope"></i></button>
+            </li>
+            <li><button class="dock-item" data-target="about-window"><i class="fa-solid fa-user"></i></button></li>
+            <li><button class="dock-item" data-target="notes-window"><i class="fa-solid fa-note-sticky"></i></button>
+            </li>
+            <li><button class="dock-item" data-target="tech-window"><i class="fa-solid fa-microchip"></i></button></li>
+            <li><button class="dock-item" data-target="trash-window"><i class="fa-solid fa-trash"></i></button></li>
+            <li><button class="dock-item" data-target="snake-window"><i class="fa-solid fa-gamepad"></i></button></li>
+
+        </ul>
+    </nav>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Draggable.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+
+</html>

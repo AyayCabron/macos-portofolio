@@ -1,11 +1,7 @@
-/* =========================
-   IMPORTAÇÃO DE FONTES
-   ========================= */
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-/* =========================
-   RESET E VARIÁVEIS GLOBAIS
-   ========================= */
+
 * {
     margin: 0;
     padding: 0;
@@ -23,14 +19,12 @@
     --borda-arredondada: 16px;
 }
 
-/* Transições e Efeitos de Transparência */
+
 body, .window, #dock, #menu-bar {
     transition: background-color 0.5s ease, color 0.5s ease;
 }
 
-/* =========================
-   ESTILO DO CORPO E DESKTOP
-   ========================= */
+
 body {
     font-family: 'Inter', sans-serif;
     background: url('https://cdn.wallpapersafari.com/35/88/qK2lXs.jpg') no-repeat center center fixed;
@@ -40,9 +34,7 @@ body {
     background-color: var(--cor-fundo);
 }
 
-/* =========================
-   TELA DE CARREGAMENTO (SPLASH SCREEN)
-   ========================= */
+
 #loading-screen {
     position: fixed;
     top: 0;
@@ -140,9 +132,7 @@ body {
     visibility: hidden;
 }
 
-/* =========================
-   BARRA DE MENU (HEADER)
-   ========================= */
+
 #menu-bar {
     position: fixed;
     top: 0;
@@ -188,9 +178,7 @@ body {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* =========================
-   ÍCONES DO DESKTOP
-   ========================= */
+
 .desktop-icon-container {
     position: absolute;
     top: 50px;
@@ -224,9 +212,7 @@ body {
     color: var(--cor-primaria);
 }
 
-/* =========================
-   JANELAS (WINDOWS)
-   ========================= */
+
 .window {
     position: absolute;
     top: 50%;
@@ -395,9 +381,7 @@ body {
     margin: 20px 0;
 }
 
-/* =========================
-   DOCK DE NAVEGAÇÃO
-   ========================= */
+
 #dock {
     position: fixed;
     bottom: 20px;
@@ -459,9 +443,7 @@ body {
         height: 120px;
     }
 }
-/* =========================
-   ESTILOS PARA O NOTES (CURRÍCULO)
-   ========================= */
+
 .notes-content {
     font-family: 'Inter', sans-serif;
     line-height: 1.6;
@@ -561,9 +543,7 @@ body {
     cursor: pointer;
 }
 
-/* =========================
-   ESTILOS PARA A JANELA DE TECNOLOGIAS
-   ========================= */
+
 .tech-content {
     max-height: 600px;
     overflow-y: auto;
@@ -649,9 +629,7 @@ body {
 
 
 
-/* =========================
-   ESTILOS DAS NOVAS FUNCIONALIDADES
-   ========================= */
+
 
 /* Dock Interativo */
 .dock-tooltip {
@@ -698,7 +676,7 @@ body {
     background: rgba(255, 255, 255, 0.1);
 }
 
-/* Mission Control */
+
 #mission-control-btn {
     position: fixed;
     bottom: 80px;
@@ -768,7 +746,7 @@ body {
     justify-content: center;
 }
 
-/* Redimensionamento de Janelas */
+
 .resize-handle {
     position: absolute;
     bottom: 0;
@@ -779,7 +757,7 @@ body {
     background: linear-gradient(135deg, transparent 50%, var(--cor-primaria) 50%);
 }
 
-/* Spotlight Search */
+
 #spotlight-search-btn {
     position: fixed;
     top: 37px;
@@ -846,7 +824,7 @@ body {
     background: rgba(255, 255, 255, 0.1);
 }
 
-/* Notificações */
+
 .notification {
     position: fixed;
     top: 20px;

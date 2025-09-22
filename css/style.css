@@ -937,18 +937,28 @@ body {
     100% { filter: hue-rotate(360deg); }
 }
 
-/* Snake Game Estilizado */
-#snake-window .window-content {
+
+
+/* Tava muito feio acho que vou melhorar depois*/
+.snake-game-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
+    gap: 16px;
 }
 
-#snake-canvas {
-    border: 2px solid var(--borda);
-    border-radius: 8px;
-    background: rgba(15, 15, 15, 0.9);
+.snake-game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.snake-score-display {
+    display: flex;
+    gap: 20px;
+    font-weight: 600;
 }
 
 .snake-controls {
@@ -956,30 +966,99 @@ body {
     gap: 10px;
 }
 
-.glass-btn {
+.mac-control-btn {
     padding: 8px 16px;
-    border: 1px solid var(--borda);
     border-radius: 6px;
-    background: rgba(255, 255, 255, 0.1);
-    color: var(--cor-texto);
+    border: none;
+    font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.2s ease;
 }
 
-.glass-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
+.start-btn {
+    background-color: #27ca3f;
+    color: white;
+}
+
+.start-btn:hover {
+    background-color: #22b437;
+}
+
+.restart-btn {
+    background-color: #ffbd2e;
+    color: white;
+}
+
+.restart-btn:hover {
+    background-color: #e6a925;
+}
+
+#snake-canvas {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    border: 1px solid var(--borda);
 }
 
 .snake-message {
-    font-style: italic;
-    opacity: 0.7;
+    font-weight: 600;
+    color: var(--cor-primaria);
+    text-align: center;
+    min-height: 24px;
 }
 
-/* Z-index Management */
-.window {
-    z-index: 10;
+.snake-mobile-controls {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
 }
 
-.window:focus-within {
-    z-index: 100;
+.control-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.control-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--borda);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    color: var(--cor-texto);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.control-btn:active {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(0.95);
+}
+
+@media (max-width: 768px) {
+    #snake-canvas {
+        width: 300px;
+        height: 300px;
+    }
+
+    .snake-mobile-controls {
+        display: flex;
+    }
+}
+
+@media (max-width: 480px) {
+    #snake-canvas {
+        width: 280px;
+        height: 280px;
+    }
+
+    .control-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+    }
 }

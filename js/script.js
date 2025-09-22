@@ -1,9 +1,7 @@
-// --- Lógica da Tela de Carregamento (Splash Screen) ---
 document.addEventListener('DOMContentLoaded', () => {
     const loadingScreen = document.getElementById('loading-screen');
     const loaderDot = document.querySelector('.loader-pulse-dot');
 
-    // Força o tema escuro
     document.documentElement.setAttribute('data-theme', 'dark');
 
     if (loadingScreen && loaderDot) {
@@ -27,11 +25,9 @@ document.addEventListener('DOMContentLoaded', () => {
 function initApp() {
     gsap.registerPlugin(Draggable);
 
-    // Remove botão de alternar tema
     const themeToggleBtn = document.getElementById('theme-toggle');
     if (themeToggleBtn) themeToggleBtn.style.display = 'none';
 
-    // --- Relógio ---
     const timeElement = document.getElementById('current-time');
     function updateTime() {
         if (timeElement) {
@@ -43,31 +39,26 @@ function initApp() {
     setInterval(updateTime, 1000);
     updateTime();
 
-    // --- Janelas e Dock ---
     const windows = document.querySelectorAll('.window');
     const dockItems = document.querySelectorAll('.dock-item');
     const desktopIcons = document.querySelectorAll('.desktop-icon');
     const closeButtons = document.querySelectorAll('.window-button.close-btn');
 
-    // Inicializa janelas invisíveis
+
     windows.forEach(win => gsap.set(win, { scale: 0.8, opacity: 0, display: 'none' }));
 
-    // Animação dos ícones do desktop
     gsap.from('.desktop-icon', { y: 20, opacity: 0, duration: 0.8, stagger: 0.1, ease: "power2.out", delay: 0.5 });
 
-    // Função unificada para abrir janelas
     const openWindow = (targetId) => {
         const targetWindow = document.getElementById(targetId);
         if (!targetWindow) return;
 
-        // Fecha outras janelas abertas
         windows.forEach(win => {
             if (win.id !== targetId && win.style.display === 'block') {
                 gsap.to(win, { scale: 0.8, opacity: 0, duration: 0.3, ease: "power2.in", onComplete: () => win.style.display = 'none' });
             }
         });
 
-        // Abre a janela selecionada
         gsap.to(targetWindow, {
             display: 'block',
             scale: 1,
@@ -75,7 +66,6 @@ function initApp() {
             duration: 0.5,
             ease: "back.out(1.7)",
             onComplete: () => {
-                // Se for a janela de tech, anima as barras
                 if (targetId === 'tech-window') {
                     const techBars = targetWindow.querySelectorAll('.tech-level-bar');
                     techBars.forEach(bar => {
@@ -88,7 +78,6 @@ function initApp() {
         });
     };
 
-    // Função para fechar janelas
     const closeWindow = (targetId) => {
         const targetWindow = document.getElementById(targetId);
         if (!targetWindow) return;
@@ -96,20 +85,17 @@ function initApp() {
         gsap.to(targetWindow, { scale: 0.8, opacity: 0, duration: 0.3, ease: "power2.in", onComplete: () => targetWindow.style.display = 'none' });
     };
 
-    // Eventos de abertura
     dockItems.forEach(item => item.addEventListener('click', () => openWindow(item.dataset.target)));
     desktopIcons.forEach(icon => icon.addEventListener('click', () => openWindow(icon.id.replace('-icon', '-window'))));
 
     // Eventos de fechamento
     closeButtons.forEach(btn => btn.addEventListener('click', () => closeWindow(btn.dataset.target)));
 
-    // Torna janelas arrastáveis
     windows.forEach(win => {
         const header = win.querySelector('.window-header');
         Draggable.create(win, { trigger: header, bounds: "main", edgeResistance: 0.65, type: "x,y", throwProps: true });
     });
 
-    // Abre o Notes a partir do link de currículo
     document.querySelectorAll('.open-notes').forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
@@ -118,288 +104,297 @@ function initApp() {
     });
 }
 
-// --- Snake Game (Versão Melhorada) ---
-const canvas = document.getElementById('snake-canvas');
-const ctx = canvas.getContext('2d');
+document.addEventListener('DOMContentLoaded', function() {
+    const snakeCanvas = document.getElementById('snake-canvas');
+    const snakeScore = document.getElementById('snake-score');
+    const snakeLevel = document.getElementById('snake-level');
+    const snakeStart = document.getElementById('snake-start');
+    const snakeRestart = document.getElementById('snake-restart');
+    const snakeMessage = document.getElementById('snake-message');
+    const controlButtons = document.querySelectorAll('.control-btn');
 
-// Sons
-const eatSound = new Howl({ src: ['https://assets.codepen.io/21542/howler-demo-bgms.mp3'] });
-const gameOverSound = new Howl({ src: ['https://assets.codepen.io/21542/howler-demo-sfx.mp3'] });
+    let snakeGame = {
+        ctx: snakeCanvas.getContext('2d'),
+        gridSize: 20,
+        snake: [],
+        direction: 'right',
+        nextDirection: 'right',
+        food: {},
+        score: 0,
+        level: 1,
+        gameSpeed: 150,
+        gameInterval: null,
+        isRunning: false,
+        cellCount: snakeCanvas.width / 20
+    };
 
-let snake = [];
-let direction = null;
-let food = {};
-let score = 0;
-let level = 1;
-let gameInterval = null;
-let gameStarted = false;
+    function initSnakeGame() {
+        snakeGame.ctx = snakeCanvas.getContext('2d');
+        snakeGame.cellCount = snakeCanvas.width / snakeGame.gridSize;
 
-const cellSize = 20;
-const rows = canvas.height / cellSize;
-const cols = canvas.width / cellSize;
+        resetSnakeGame();
 
-// Cores do tema
-const gridColor = 'rgba(255, 255, 255, 0.05)';
-const snakeHeadColor = '#4CAF50';
-const snakeBodyColor = '#66BB6A';
-const foodColor = '#FF5252';
-const backgroundColor = 'rgba(15, 15, 15, 0.9)';
+        window.addEventListener('keydown', function(e) {
+            if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+                e.preventDefault();
 
-// Inicializa o jogo
-function initSnakeGame() {
-    snake = [
-        {x: 10, y: 10, type: 'head'},
-        {x: 9, y: 10, type: 'body'},
-        {x: 8, y: 10, type: 'body'}
-    ];
-    direction = null;
-    placeFood();
-    score = 0;
-    level = 1;
-    gameStarted = false;
-    
-    document.getElementById('snake-score').innerText = score;
-    document.getElementById('snake-level').innerText = level;
-    document.getElementById('snake-message').style.display = 'block';
-    
-    if (gameInterval) clearInterval(gameInterval);
-    drawSnakeGame();
-}
-
-// Coloca a comida em posição aleatória
-function placeFood() {
-    let validPosition = false;
-    while (!validPosition) {
-        food = { 
-            x: Math.floor(Math.random() * cols), 
-            y: Math.floor(Math.random() * rows),
-            type: Math.random() > 0.9 ? 'special' : 'normal'
-        };
-        
-        // Verifica se a comida não está em cima da cobra
-        validPosition = !snake.some(segment => segment.x === food.x && segment.y === food.y);
-    }
-}
-
-// Desenha o jogo
-function drawSnakeGame() {
-    // Limpa o canvas
-    ctx.fillStyle = backgroundColor;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    // Desenha grade
-    ctx.strokeStyle = gridColor;
-    ctx.lineWidth = 0.5;
-    for (let i = 0; i < rows; i++) {
-        for (let j = 0; j < cols; j++) {
-            ctx.strokeRect(j * cellSize, i * cellSize, cellSize, cellSize);
-        }
-    }
-    
-    // Desenha comida
-    if (food.type === 'special') {
-        // Comida especial (brilha)
-        ctx.fillStyle = '#FFEB3B';
-        ctx.beginPath();
-        ctx.arc(food.x * cellSize + cellSize/2, food.y * cellSize + cellSize/2, cellSize/2, 0, Math.PI * 2);
-        ctx.fill();
-        
-        ctx.strokeStyle = '#FFC107';
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        ctx.arc(food.x * cellSize + cellSize/2, food.y * cellSize + cellSize/2, cellSize/2 + 2, 0, Math.PI * 2);
-        ctx.stroke();
-    } else {
-        // Comida normal
-        ctx.fillStyle = foodColor;
-        ctx.beginPath();
-        ctx.arc(food.x * cellSize + cellSize/2, food.y * cellSize + cellSize/2, cellSize/2, 0, Math.PI * 2);
-        ctx.fill();
-    }
-    
-    // Desenha cobra
-    snake.forEach((segment, index) => {
-        if (index === 0) {
-            // Cabeça
-            ctx.fillStyle = snakeHeadColor;
-        } else {
-            // Corpo
-            ctx.fillStyle = snakeBodyColor;
-        }
-        
-        ctx.fillRect(segment.x * cellSize, segment.y * cellSize, cellSize, cellSize);
-        
-        // Detalhes
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
-        if (index === 0) {
-            // Olhos
-            const eyeSize = cellSize / 5;
-            const offset = cellSize / 3;
-            
-            // Direção dos olhos
-            let eyeX1, eyeY1, eyeX2, eyeY2;
-            
-            if (direction === "ArrowRight") {
-                eyeX1 = eyeX2 = segment.x * cellSize + cellSize - offset;
-                eyeY1 = segment.y * cellSize + offset;
-                eyeY2 = segment.y * cellSize + cellSize - offset;
-            } else if (direction === "ArrowLeft") {
-                eyeX1 = eyeX2 = segment.x * cellSize + offset;
-                eyeY1 = segment.y * cellSize + offset;
-                eyeY2 = segment.y * cellSize + cellSize - offset;
-            } else if (direction === "ArrowUp") {
-                eyeY1 = eyeY2 = segment.y * cellSize + offset;
-                eyeX1 = segment.x * cellSize + offset;
-                eyeX2 = segment.x * cellSize + cellSize - offset;
-            } else if (direction === "ArrowDown") {
-                eyeY1 = eyeY2 = segment.y * cellSize + cellSize - offset;
-                eyeX1 = segment.x * cellSize + offset;
-                eyeX2 = segment.x * cellSize + cellSize - offset;
-            } else {
-                // Olhos centrados se não houver direção
-                eyeX1 = segment.x * cellSize + offset;
-                eyeX2 = segment.x * cellSize + cellSize - offset;
-                eyeY1 = eyeY2 = segment.y * cellSize + cellSize / 2;
-            }
-            
-            ctx.beginPath();
-            ctx.arc(eyeX1, eyeY1, eyeSize, 0, Math.PI * 2);
-            ctx.arc(eyeX2, eyeY2, eyeSize, 0, Math.PI * 2);
-            ctx.fill();
-        } else {
-            // Detalhes do corpo
-            ctx.fillRect(segment.x * cellSize + 4, segment.y * cellSize + 4, cellSize - 8, cellSize - 8);
-        }
-    });
-    
-    if (!gameStarted || !direction) return;
-    
-    // Move cobra
-    const head = {...snake[0]};
-    if (direction === "ArrowUp") head.y--;
-    if (direction === "ArrowDown") head.y++;
-    if (direction === "ArrowLeft") head.x--;
-    if (direction === "ArrowRight") head.x++;
-    head.type = 'head';
-    snake[0].type = 'body';
-    
-    // Verifica colisão
-    if (head.x < 0 || head.x >= cols || head.y < 0 || head.y >= rows || 
-        snake.some((s, i) => i > 0 && s.x === head.x && s.y === head.y)) {
-        gameOver();
-        return;
-    }
-    
-    snake.unshift(head);
-    
-    // Verifica se comeu a comida
-    if (head.x === food.x && head.y === food.y) {
-        // eatSound.play();
-        score += (food.type === 'special') ? 5 : 1;
-        
-        if (score % 10 === 0) {
-            level++;
-            // Aumenta a velocidade a cada nível
-            clearInterval(gameInterval);
-            const speed = Math.max(50, 150 - (level * 5));
-            gameInterval = setInterval(drawSnakeGame, speed);
-        }
-        
-        document.getElementById('snake-score').innerText = score;
-        document.getElementById('snake-level').innerText = level;
-        placeFood();
-    } else {
-        snake.pop();
-    }
-}
-
-// Game over
-function gameOver() {
-    clearInterval(gameInterval);
-    gameStarted = false;
-    // gameOverSound.play();
-    
-    // Efeito de game over
-    let opacity = 0;
-    const gameOverInterval = setInterval(() => {
-        ctx.fillStyle = `rgba(244, 67, 54, ${opacity})`;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        
-        ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
-        ctx.font = '30px Inter';
-        ctx.textAlign = 'center';
-        ctx.fillText('GAME OVER', canvas.width/2, canvas.height/2);
-        ctx.font = '16px Inter';
-        ctx.fillText(`Score: ${score} | Level: ${level}`, canvas.width/2, canvas.height/2 + 40);
-        
-        opacity += 0.02;
-        if (opacity >= 0.7) {
-            clearInterval(gameOverInterval);
-            
-            // Botão de restart
-            ctx.fillStyle = '#4CAF50';
-            ctx.fillRect(canvas.width/2 - 50, canvas.height/2 + 70, 100, 40);
-            ctx.fillStyle = 'white';
-            ctx.font = '16px Inter';
-            ctx.fillText('RESTART', canvas.width/2, canvas.height/2 + 95);
-            
-            // Adiciona evento de clique no botão
-            canvas.onclick = (e) => {
-                const rect = canvas.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                if (x >= canvas.width/2 - 50 && x <= canvas.width/2 + 50 && 
-                    y >= canvas.height/2 + 70 && y <= canvas.height/2 + 110) {
-                    initSnakeGame();
-                    canvas.onclick = null;
+                if (!snakeGame.isRunning && e.key === 'ArrowUp') {
+                    startSnakeGame();
+                    return;
                 }
+
+                if (e.key === 'ArrowUp' && snakeGame.direction !== 'down') {
+                    snakeGame.nextDirection = 'up';
+                } else if (e.key === 'ArrowDown' && snakeGame.direction !== 'up') {
+                    snakeGame.nextDirection = 'down';
+                } else if (e.key === 'ArrowLeft' && snakeGame.direction !== 'right') {
+                    snakeGame.nextDirection = 'left';
+                } else if (e.key === 'ArrowRight' && snakeGame.direction !== 'left') {
+                    snakeGame.nextDirection = 'right';
+                }
+            }
+        });
+
+        snakeStart.addEventListener('click', startSnakeGame);
+        snakeRestart.addEventListener('click', resetSnakeGame);
+
+        controlButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const direction = this.getAttribute('data-direction');
+
+                if (!snakeGame.isRunning && direction === 'ArrowUp') {
+                    startSnakeGame();
+                    return;
+                }
+
+                if (direction === 'ArrowUp' && snakeGame.direction !== 'down') {
+                    snakeGame.nextDirection = 'up';
+                } else if (direction === 'ArrowDown' && snakeGame.direction !== 'up') {
+                    snakeGame.nextDirection = 'down';
+                } else if (direction === 'ArrowLeft' && snakeGame.direction !== 'right') {
+                    snakeGame.nextDirection = 'left';
+                } else if (direction === 'ArrowRight' && snakeGame.direction !== 'left') {
+                    snakeGame.nextDirection = 'right';
+                }
+            });
+        });
+
+        window.addEventListener('resize', function() {
+            if (window.innerWidth <= 768) {
+                snakeCanvas.width = 300;
+                snakeCanvas.height = 300;
+                snakeGame.gridSize = 15;
+                snakeGame.cellCount = snakeCanvas.width / snakeGame.gridSize;
+            } else {
+                snakeCanvas.width = 400;
+                snakeCanvas.height = 400;
+                snakeGame.gridSize = 20;
+                snakeGame.cellCount = snakeCanvas.width / snakeGame.gridSize;
+            }
+
+            if (snakeGame.isRunning) {
+                drawGame();
+            }
+        });
+    }
+
+    function resetSnakeGame() {
+        clearInterval(snakeGame.gameInterval);
+
+        snakeGame.snake = [
+            { x: 5, y: 5 },
+            { x: 4, y: 5 },
+            { x: 3, y: 5 }
+        ];
+
+        snakeGame.direction = 'right';
+        snakeGame.nextDirection = 'right';
+        snakeGame.score = 0;
+        snakeGame.level = 1;
+        snakeGame.gameSpeed = 150;
+        snakeGame.isRunning = false;
+
+        snakeScore.textContent = '0';
+        snakeLevel.textContent = '1';
+        snakeMessage.textContent = 'Clique em Start para iniciar';
+
+        generateFood();
+        drawGame();
+    }
+
+    function startSnakeGame() {
+        if (snakeGame.isRunning) return;
+
+        snakeGame.isRunning = true;
+        snakeMessage.textContent = '';
+
+        snakeGame.gameInterval = setInterval(gameLoop, snakeGame.gameSpeed);
+    }
+
+    function gameLoop() {
+        moveSnake();
+
+        if (checkCollision()) {
+            gameOver();
+            return;
+        }
+
+        if (checkFoodCollision()) {
+            eatFood();
+            generateFood();
+        }
+
+        drawGame();
+    }
+
+    function moveSnake() {
+        snakeGame.direction = snakeGame.nextDirection;
+
+        const head = { ...snakeGame.snake[0] };
+
+        switch (snakeGame.direction) {
+            case 'up': head.y--; break;
+            case 'down': head.y++; break;
+            case 'left': head.x--; break;
+            case 'right': head.x++; break;
+        }
+
+        if (head.x < 0) head.x = snakeGame.cellCount - 1;
+        if (head.x >= snakeGame.cellCount) head.x = 0;
+        if (head.y < 0) head.y = snakeGame.cellCount - 1;
+        if (head.y >= snakeGame.cellCount) head.y = 0;
+
+        snakeGame.snake.unshift(head);
+
+        if (!snakeGame.justAte) {
+            snakeGame.snake.pop();
+        } else {
+            snakeGame.justAte = false;
+        }
+    }
+
+    function checkCollision() {
+        const head = snakeGame.snake[0];
+
+        for (let i = 1; i < snakeGame.snake.length; i++) {
+            if (head.x === snakeGame.snake[i].x && head.y === snakeGame.snake[i].y) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    function checkFoodCollision() {
+        const head = snakeGame.snake[0];
+        return head.x === snakeGame.food.x && head.y === snakeGame.food.y;
+    }
+
+    function eatFood() {
+        snakeGame.score += 10 * snakeGame.level;
+        snakeScore.textContent = snakeGame.score;
+
+        snakeGame.justAte = true;
+
+        if (snakeGame.score % 100 === 0) {
+            snakeGame.level++;
+            snakeLevel.textContent = snakeGame.level;
+
+            clearInterval(snakeGame.gameInterval);
+            snakeGame.gameSpeed = Math.max(50, 150 - (snakeGame.level - 1) * 10);
+            snakeGame.gameInterval = setInterval(gameLoop, snakeGame.gameSpeed);
+        }
+    }
+
+    function generateFood() {
+        let newFood;
+        let isOnSnake;
+
+        do {
+            isOnSnake = false;
+            newFood = {
+                x: Math.floor(Math.random() * snakeGame.cellCount),
+                y: Math.floor(Math.random() * snakeGame.cellCount)
             };
-        }
-    }, 30);
-}
 
-// Inicia o jogo
-function startSnakeGame() {
-    if (!gameStarted) {
-        document.getElementById('snake-message').style.display = 'none';
-        gameStarted = true;
-        if (!direction) direction = "ArrowRight";
-        if (gameInterval) clearInterval(gameInterval);
-        gameInterval = setInterval(drawSnakeGame, 150);
-    }
-}
+            for (let segment of snakeGame.snake) {
+                if (segment.x === newFood.x && segment.y === newFood.y) {
+                    isOnSnake = true;
+                    break;
+                }
+            }
+        } while (isOnSnake);
 
-// Controla a direção da cobra
-document.addEventListener('keydown', e => {
-    if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
-        e.preventDefault();
-        
-        const newDirection = e.key;
-        if (newDirection === "ArrowUp" && direction !== "ArrowDown") direction = newDirection;
-        if (newDirection === "ArrowDown" && direction !== "ArrowUp") direction = newDirection;
-        if (newDirection === "ArrowLeft" && direction !== "ArrowRight") direction = newDirection;
-        if (newDirection === "ArrowRight" && direction !== "ArrowLeft") direction = newDirection;
-        
-        if (!gameStarted) {
-            startSnakeGame();
+        snakeGame.food = newFood;
+    }
+
+    function drawGame() {
+        snakeGame.ctx.clearRect(0, 0, snakeCanvas.width, snakeCanvas.height);
+
+        // fundo quadriculado
+        snakeGame.ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+        for (let x = 0; x < snakeGame.cellCount; x++) {
+            for (let y = 0; y < snakeGame.cellCount; y++) {
+                if ((x + y) % 2 === 0) {
+                    snakeGame.ctx.fillRect(
+                        x * snakeGame.gridSize,
+                        y * snakeGame.gridSize,
+                        snakeGame.gridSize,
+                        snakeGame.gridSize
+                    );
+                }
+            }
+        }
+
+        // comida
+        snakeGame.ctx.fillStyle = '#27ca3f';
+        snakeGame.ctx.fillRect(
+            snakeGame.food.x * snakeGame.gridSize,
+            snakeGame.food.y * snakeGame.gridSize,
+            snakeGame.gridSize,
+            snakeGame.gridSize
+        );
+
+        // cobra
+        for (let i = 0; i < snakeGame.snake.length; i++) {
+            const segment = snakeGame.snake[i];
+
+            if (i === 0) {
+                snakeGame.ctx.fillStyle = '#0A84FF';
+            } else {
+                const intensity = 255 - Math.min(100, i * 3);
+                snakeGame.ctx.fillStyle = `rgb(10, 132, ${intensity})`;
+            }
+
+            snakeGame.ctx.fillRect(
+                segment.x * snakeGame.gridSize,
+                segment.y * snakeGame.gridSize,
+                snakeGame.gridSize - 1,
+                snakeGame.gridSize - 1
+            );
         }
     }
+
+    function gameOver() {
+        clearInterval(snakeGame.gameInterval);
+        snakeGame.isRunning = false;
+
+        snakeMessage.textContent = `Game Over! Score: ${snakeGame.score}`;
+
+        snakeGame.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+        snakeGame.ctx.fillRect(0, 0, snakeCanvas.width, snakeCanvas.height);
+
+        snakeGame.ctx.fillStyle = 'white';
+        snakeGame.ctx.font = '20px Inter';
+        snakeGame.ctx.textAlign = 'center';
+        snakeGame.ctx.fillText('GAME OVER', snakeCanvas.width / 2, snakeCanvas.height / 2 - 20);
+        snakeGame.ctx.fillText(`Score: ${snakeGame.score}`, snakeCanvas.width / 2, snakeCanvas.height / 2 + 10);
+        snakeGame.ctx.fillText('Click Start to play again', snakeCanvas.width / 2, snakeCanvas.height / 2 + 40);
+    }
+
+    initSnakeGame();
 });
 
-// Botões de controle
-document.getElementById('snake-start').addEventListener('click', startSnakeGame);
-document.getElementById('snake-restart').addEventListener('click', initSnakeGame);
-
-// Inicializa o jogo quando a janela é aberta
-document.addEventListener('DOMContentLoaded', () => {
-    // Inicializa o jogo apenas se o canvas existir
-    if (document.getElementById('snake-canvas')) {
-        initSnakeGame();
-    }
-});
-
-// --- Dock Interativo ---
 function initDock() {
     const dockItems = document.querySelectorAll('.dock-item');
     
@@ -449,7 +444,6 @@ function initDock() {
             menu.style.left = `${rect.left}px`;
             menu.style.top = `${rect.top - menu.offsetHeight - 10}px`;
             
-            // Remove o menu ao clicar em outro lugar
             const removeMenu = () => {
                 menu.remove();
                 document.removeEventListener('click', removeMenu);
@@ -476,7 +470,6 @@ function minimizeWindow(targetId) {
     }
 }
 
-// --- Mission Control ---
 function initMissionControl() {
     const missionControlBtn = document.createElement('div');
     missionControlBtn.id = 'mission-control-btn';
@@ -1050,19 +1043,16 @@ function initApp() {
         });
     });
 
-    // --- INICIALIZAÇÃO DAS NOVAS FUNCIONALIDADES ---
     initDock();
     initMissionControl();
     makeWindowsResizable();
     initSpotlightSearch();
     initEasterEggs();
 
-    // Adiciona evento de clique para trazer janela para frente
     windows.forEach(win => {
         win.addEventListener('mousedown', () => bringWindowToFront(win));
     });
 
-    // Notificação de boas-vindas
     setTimeout(() => {
         showNotification('Bem-vindo ao meu Portfolio!', 'Explore as funcionalidades usando o Dock e o Spotlight Search', 'fa-info-circle');
     }, 2000);

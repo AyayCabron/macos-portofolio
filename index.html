@@ -582,21 +582,30 @@
             <span>Snake Game</span>
         </div>
     </div>
-
-    <div class="window-content window-body">
-        <canvas id="snake-canvas" width="400" height="400"></canvas>
-
-        <!-- Mensagem inicial -->
-        <p id="snake-message" class="snake-message">Clique em Start para iniciar</p>
-
-        <!-- Controles -->
-        <div class="snake-controls">
-            <button id="snake-start" class="glass-btn">Start</button>
-            <button id="snake-restart" class="glass-btn">Restart</button>
-        </div>
-
-        <div>
-            Score: <span id="snake-score">0</span> | Level: <span id="snake-level">1</span>
+    <div class="window-content">
+        <div class="snake-game-container">
+            <div class="snake-game-header">
+                <div class="snake-score-display">
+                    <span>Score: <span id="snake-score">0</span></span>
+                    <span>Level: <span id="snake-level">1</span></span>
+                </div>
+                <div class="snake-controls">
+                    <button id="snake-start" class="mac-control-btn start-btn">Start</button>
+                    <button id="snake-restart" class="mac-control-btn restart-btn">Restart</button>
+                </div>
+            </div>
+            <canvas id="snake-canvas" width="400" height="400"></canvas>
+            <div id="snake-message" class="snake-message">Clique em Start para iniciar</div>
+            <div class="snake-mobile-controls">
+                <div class="control-row">
+                    <button class="control-btn up-btn" data-direction="ArrowUp">↑</button>
+                </div>
+                <div class="control-row">
+                    <button class="control-btn left-btn" data-direction="ArrowLeft">←</button>
+                    <button class="control-btn down-btn" data-direction="ArrowDown">↓</button>
+                    <button class="control-btn right-btn" data-direction="ArrowRight">→</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>

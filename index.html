@@ -1,670 +1,1919 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-theme="dark">
-
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vinícius Silva | Portfólio</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-        xintegrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+b+A3uP97Pgg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vinícius Silva | Portfolio</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--glass-bg:rgba(28,28,30,0.72);
+--glass-bg-light:rgba(255,255,255,0.12);
+--glass-border:rgba(255,255,255,0.18);
+--glass-border-strong:rgba(255,255,255,0.28);
+--glass-blur:blur(40px) saturate(180%);
+--glass-blur-sm:blur(20px) saturate(160%);
+--accent:#0A84FF;
+--accent2:#30D158;
+--accent3:#FF453A;
+--accent4:#FFD60A;
+--text-primary:rgba(255,255,255,0.95);
+--text-secondary:rgba(255,255,255,0.65);
+--text-tertiary:rgba(255,255,255,0.40);
+--shadow-lg:0 32px 80px rgba(0,0,0,0.6),0 8px 24px rgba(0,0,0,0.4);
+--shadow-md:0 16px 40px rgba(0,0,0,0.5);
+--shadow-sm:0 4px 16px rgba(0,0,0,0.3);
+--radius-xl:20px;
+--radius-lg:16px;
+--radius-md:12px;
+--radius-sm:8px;
+--font:-apple-system,BlinkMacSystemFont,'SF Pro Display','Inter',sans-serif;
+}
+body{
+font-family:var(--font);
+background:#000;
+color:var(--text-primary);
+overflow:hidden;
+height:100vh;
+width:100vw;
+user-select:none;
+}
+#wallpaper{
+position:fixed;inset:0;z-index:0;
+background:linear-gradient(135deg,#0d1b3e 0%,#1a0a2e 25%,#0a1628 50%,#001a3a 75%,#0d1b3e 100%);
+}
+#wallpaper::before{
+content:'';position:absolute;inset:0;
+background:radial-gradient(ellipse 80% 60% at 20% 80%,rgba(10,132,255,0.25) 0%,transparent 60%),
+radial-gradient(ellipse 60% 80% at 80% 20%,rgba(48,209,88,0.15) 0%,transparent 50%),
+radial-gradient(ellipse 50% 50% at 50% 50%,rgba(94,92,230,0.2) 0%,transparent 70%);
+animation:wallpaperPulse 12s ease-in-out infinite alternate;
+}
+@keyframes wallpaperPulse{
+0%{opacity:0.8}100%{opacity:1;filter:hue-rotate(15deg)}
+}
+#wallpaper::after{
+content:'';position:absolute;inset:0;
+background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+opacity:0.4;
+}
+
+/* LOADING */
+#loading{
+position:fixed;inset:0;z-index:9999;
+background:#000;
+display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;
+transition:opacity 0.8s ease;
+}
+#loading.out{opacity:0;pointer-events:none}
+.loader-avatar{
+width:120px;height:120px;border-radius:50%;
+border:3px solid rgba(10,132,255,0.6);
+box-shadow:0 0 40px rgba(10,132,255,0.4),0 0 80px rgba(10,132,255,0.2);
+overflow:hidden;
+animation:avatarPulse 2s ease-in-out infinite;
+}
+.loader-avatar img{width:100%;height:100%;object-fit:cover}
+@keyframes avatarPulse{0%,100%{box-shadow:0 0 40px rgba(10,132,255,0.4)}50%{box-shadow:0 0 60px rgba(10,132,255,0.7),0 0 100px rgba(10,132,255,0.3)}}
+.loader-name{font-size:1.8rem;font-weight:600;letter-spacing:0.5px}
+.loader-bar{
+width:180px;height:4px;background:rgba(255,255,255,0.12);border-radius:2px;overflow:hidden;
+}
+.loader-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),#5E5CE6);border-radius:2px;animation:loadFill 2.5s ease-in-out forwards}
+@keyframes loadFill{0%{width:0}70%{width:80%}100%{width:100%}}
+.loader-sub{font-size:0.8rem;color:var(--text-secondary);letter-spacing:2px;text-transform:uppercase}
+
+/* MENUBAR */
+#menubar{
+position:fixed;top:0;left:0;right:0;height:28px;z-index:800;
+backdrop-filter:var(--glass-blur);
+-webkit-backdrop-filter:var(--glass-blur);
+background:rgba(20,20,22,0.55);
+border-bottom:0.5px solid var(--glass-border);
+display:flex;align-items:center;padding:0 12px;gap:0;
+}
+.mb-apple{font-size:14px;padding:0 10px;color:var(--text-primary);cursor:pointer;display:flex;align-items:center;height:100%;transition:background 0.15s}
+.mb-apple:hover{background:rgba(255,255,255,0.1);border-radius:6px}
+.mb-group{display:flex;align-items:center;gap:2px;flex:1}
+.mb-item{font-size:13px;font-weight:500;padding:0 8px;height:22px;display:flex;align-items:center;cursor:pointer;border-radius:6px;color:var(--text-primary);transition:background 0.15s;white-space:nowrap}
+.mb-item:hover{background:rgba(255,255,255,0.12)}
+.mb-item.bold{font-weight:700}
+.mb-right{display:flex;align-items:center;gap:6px;margin-left:auto}
+.mb-icon{font-size:13px;width:28px;height:22px;display:flex;align-items:center;justify-content:center;cursor:pointer;border-radius:6px;color:var(--text-primary);transition:background 0.15s}
+.mb-icon:hover{background:rgba(255,255,255,0.12)}
+#mb-clock{font-size:13px;font-weight:500;color:var(--text-primary);padding:0 8px;cursor:pointer}
+
+/* DESKTOP */
+#desktop{
+position:fixed;inset:28px 0 90px 0;z-index:1;
+display:flex;flex-direction:column;align-items:flex-start;
+padding:16px 16px;gap:8px;overflow:hidden;
+}
+.desk-icon{
+display:flex;flex-direction:column;align-items:center;gap:5px;
+cursor:pointer;padding:8px;border-radius:12px;
+transition:all 0.2s ease;width:76px;
+}
+.desk-icon:hover{background:rgba(255,255,255,0.08)}
+.desk-icon:active{transform:scale(0.92)}
+.desk-icon .di-icon{
+width:52px;height:52px;border-radius:14px;
+display:flex;align-items:center;justify-content:center;
+font-size:26px;
+backdrop-filter:var(--glass-blur-sm);
+-webkit-backdrop-filter:var(--glass-blur-sm);
+border:0.5px solid var(--glass-border);
+position:relative;overflow:hidden;
+transition:all 0.2s ease;
+}
+.desk-icon:hover .di-icon{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.4)}
+.desk-icon .di-label{font-size:11px;font-weight:500;color:var(--text-primary);text-align:center;text-shadow:0 1px 4px rgba(0,0,0,0.8);line-height:1.2;max-width:72px;word-break:break-word}
+.di-blue{background:linear-gradient(145deg,rgba(10,132,255,0.4),rgba(10,132,255,0.15))}
+.di-green{background:linear-gradient(145deg,rgba(48,209,88,0.4),rgba(48,209,88,0.15))}
+.di-orange{background:linear-gradient(145deg,rgba(255,159,10,0.4),rgba(255,159,10,0.15))}
+.di-purple{background:linear-gradient(145deg,rgba(94,92,230,0.4),rgba(94,92,230,0.15))}
+.di-red{background:linear-gradient(145deg,rgba(255,69,58,0.4),rgba(255,69,58,0.15))}
+.di-teal{background:linear-gradient(145deg,rgba(100,210,255,0.4),rgba(100,210,255,0.15))}
+.di-yellow{background:linear-gradient(145deg,rgba(255,214,10,0.4),rgba(255,214,10,0.15))}
+.di-pink{background:linear-gradient(145deg,rgba(255,55,95,0.4),rgba(255,55,95,0.15))}
+.di-gray{background:linear-gradient(145deg,rgba(142,142,147,0.4),rgba(142,142,147,0.15))}
+
+/* WINDOWS */
+.window{
+position:fixed;top:60px;left:50%;transform:translateX(-50%);
+min-width:380px;max-width:800px;width:680px;
+background:var(--glass-bg);
+backdrop-filter:var(--glass-blur);
+-webkit-backdrop-filter:var(--glass-blur);
+border:0.5px solid var(--glass-border);
+border-radius:var(--radius-xl);
+box-shadow:var(--shadow-lg);
+display:none;z-index:100;
+overflow:hidden;
+}
+.window.visible{display:block}
+.wh{
+display:flex;align-items:center;padding:10px 14px;gap:10px;
+border-bottom:0.5px solid var(--glass-border);
+cursor:move;
+background:rgba(255,255,255,0.03);
+flex-shrink:0;
+}
+.wh-btns{display:flex;gap:8px;align-items:center;flex-shrink:0}
+.wb{width:12px;height:12px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:7px;color:transparent;transition:all 0.15s;flex-shrink:0}
+.wb:hover{color:rgba(0,0,0,0.6)}
+.wb.close{background:#FF5F57;border:0.5px solid rgba(0,0,0,0.15)}
+.wb.mini{background:#FFBD2E;border:0.5px solid rgba(0,0,0,0.15)}
+.wb.maxi{background:#28C840;border:0.5px solid rgba(0,0,0,0.15)}
+.wh-title{flex:1;text-align:center;font-size:13px;font-weight:600;color:var(--text-primary);display:flex;align-items:center;justify-content:center;gap:7px}
+.wh-title i{font-size:12px;color:var(--text-secondary)}
+.wc{padding:0;overflow-y:auto;max-height:calc(100vh - 200px)}
+.wc-inner{padding:20px}
+
+/* DOCK */
+#dock{
+position:fixed;bottom:14px;left:50%;transform:translateX(-50%);
+z-index:800;
+background:rgba(30,30,35,0.65);
+backdrop-filter:var(--glass-blur);
+-webkit-backdrop-filter:var(--glass-blur);
+border:0.5px solid var(--glass-border-strong);
+border-radius:22px;
+padding:8px 14px;
+box-shadow:0 24px 60px rgba(0,0,0,0.7),0 0 0 0.5px rgba(255,255,255,0.05) inset,0 1px 0 rgba(255,255,255,0.12) inset;
+display:flex;align-items:flex-end;gap:6px;
+}
+.dock-sep{width:0.5px;height:42px;background:var(--glass-border);margin:0 4px;align-self:center}
+.di{
+display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;
+position:relative;transition:transform 0.2s cubic-bezier(.34,1.56,.64,1);
+}
+.di:hover{transform:translateY(-12px) scale(1.15)}
+.di:active{transform:translateY(-8px) scale(1.05)}
+.di-wrap{
+width:52px;height:52px;border-radius:14px;
+display:flex;align-items:center;justify-content:center;
+font-size:28px;position:relative;overflow:hidden;
+transition:box-shadow 0.2s;
+}
+.di:hover .di-wrap{box-shadow:0 12px 32px rgba(0,0,0,0.5)}
+.di-dot{
+width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,0.5);
+position:absolute;bottom:-6px;
+}
+.di-tooltip{
+position:absolute;bottom:calc(100% + 12px);
+background:rgba(28,28,30,0.9);
+backdrop-filter:blur(12px);
+border:0.5px solid var(--glass-border);
+color:var(--text-primary);font-size:11px;font-weight:500;
+padding:4px 8px;border-radius:6px;white-space:nowrap;
+opacity:0;pointer-events:none;transition:opacity 0.15s;
+box-shadow:0 4px 12px rgba(0,0,0,0.4);
+}
+.di:hover .di-tooltip{opacity:1}
+
+/* SPOTLIGHT */
+#spotlight-overlay{
+position:fixed;inset:0;z-index:900;
+background:rgba(0,0,0,0.4);
+backdrop-filter:blur(8px);
+display:none;align-items:flex-start;justify-content:center;
+padding-top:15vh;
+}
+#spotlight-overlay.open{display:flex}
+#spotlight-box{
+width:640px;max-width:92vw;
+background:rgba(26,26,32,0.88);
+backdrop-filter:var(--glass-blur);
+-webkit-backdrop-filter:var(--glass-blur);
+border:0.5px solid rgba(255,255,255,0.22);
+border-radius:18px;
+box-shadow:0 32px 80px rgba(0,0,0,0.8),0 0 0 0.5px rgba(255,255,255,0.05) inset;
+overflow:hidden;
+}
+#spotlight-input-row{
+display:flex;align-items:center;gap:10px;padding:14px 16px;
+border-bottom:0.5px solid var(--glass-border);
+}
+#spotlight-input-row i{font-size:16px;color:var(--text-secondary);flex-shrink:0}
+#spotlight-input{
+flex:1;background:none;border:none;outline:none;
+font-size:21px;font-weight:300;color:var(--text-primary);
+font-family:var(--font);caret-color:var(--accent);
+}
+#spotlight-input::placeholder{color:var(--text-tertiary)}
+#spotlight-results{max-height:440px;overflow-y:auto}
+.sr-section{padding:8px 14px 4px;font-size:11px;font-weight:600;color:var(--text-secondary);letter-spacing:0.8px;text-transform:uppercase}
+.sr-item{
+display:flex;align-items:center;gap:12px;padding:9px 14px;cursor:pointer;
+transition:background 0.12s;border-radius:10px;margin:1px 4px;
+}
+.sr-item:hover,.sr-item.selected{background:rgba(10,132,255,0.2)}
+.sr-icon{
+width:32px;height:32px;border-radius:8px;
+display:flex;align-items:center;justify-content:center;
+font-size:15px;flex-shrink:0;
+}
+.sr-text{flex:1;min-width:0}
+.sr-text .sr-title{font-size:13px;font-weight:500;color:var(--text-primary)}
+.sr-text .sr-sub{font-size:11px;color:var(--text-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sr-tag{font-size:10px;font-weight:600;padding:2px 6px;border-radius:4px;background:rgba(10,132,255,0.25);color:var(--accent);flex-shrink:0}
+#spotlight-ai{padding:12px 16px;border-top:0.5px solid var(--glass-border);font-size:13px;color:var(--text-secondary);line-height:1.5}
+#spotlight-ai.loading::after{content:'...';animation:dots 1s infinite}
+@keyframes dots{0%{content:''}33%{content:'.'}66%{content:'..'}100%{content:'...'}}
+
+/* NOTIFICATION */
+.notif{
+position:fixed;top:40px;right:16px;z-index:1000;
+width:310px;
+background:rgba(36,36,40,0.92);
+backdrop-filter:var(--glass-blur);
+-webkit-backdrop-filter:var(--glass-blur);
+border:0.5px solid var(--glass-border);
+border-radius:14px;padding:12px 14px;
+box-shadow:var(--shadow-md);
+display:flex;gap:10px;align-items:flex-start;
+animation:slideInRight 0.4s cubic-bezier(.34,1.56,.64,1) forwards;
+transition:transform 0.3s,opacity 0.3s;
+}
+.notif.out{transform:translateX(340px);opacity:0}
+@keyframes slideInRight{from{transform:translateX(340px);opacity:0}to{transform:translateX(0);opacity:1}}
+.notif-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.notif-body{flex:1;min-width:0}
+.notif-title{font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:2px}
+.notif-msg{font-size:12px;color:var(--text-secondary);line-height:1.4}
+.notif-close{font-size:12px;color:var(--text-tertiary);cursor:pointer;padding:2px}
+.notif-close:hover{color:var(--text-secondary)}
+
+/* SETTINGS MODAL */
+#settings-overlay{
+position:fixed;inset:0;z-index:950;
+background:rgba(0,0,0,0.5);
+backdrop-filter:blur(12px);
+display:none;align-items:center;justify-content:center;
+}
+#settings-overlay.open{display:flex}
+#settings-box{
+width:620px;max-width:94vw;max-height:85vh;
+background:rgba(26,26,30,0.95);
+backdrop-filter:var(--glass-blur);
+-webkit-backdrop-filter:var(--glass-blur);
+border:0.5px solid var(--glass-border);
+border-radius:var(--radius-xl);
+box-shadow:var(--shadow-lg);
+overflow:hidden;display:flex;flex-direction:column;
+}
+.settings-header{
+display:flex;align-items:center;padding:14px 16px;gap:10px;
+border-bottom:0.5px solid var(--glass-border);
+background:rgba(255,255,255,0.03);
+}
+.settings-tabs{display:flex;gap:4px;padding:12px 16px;border-bottom:0.5px solid var(--glass-border)}
+.s-tab{
+padding:6px 14px;border-radius:20px;font-size:13px;font-weight:500;
+cursor:pointer;color:var(--text-secondary);transition:all 0.2s;border:none;background:none;
+}
+.s-tab.active{background:rgba(10,132,255,0.25);color:var(--accent);border:0.5px solid rgba(10,132,255,0.4)}
+.settings-body{padding:20px;overflow-y:auto;flex:1}
+.s-section{margin-bottom:24px}
+.s-section-title{font-size:12px;font-weight:600;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:12px}
+.s-row{
+display:flex;align-items:center;justify-content:space-between;
+padding:10px 14px;background:rgba(255,255,255,0.05);
+border-radius:10px;margin-bottom:4px;
+}
+.s-row-label{font-size:13px;font-weight:500;color:var(--text-primary)}
+.s-row-sub{font-size:11px;color:var(--text-secondary);margin-top:1px}
+.s-toggle{
+width:44px;height:26px;border-radius:13px;position:relative;cursor:pointer;
+border:none;outline:none;transition:background 0.3s;flex-shrink:0;
+}
+.s-toggle.on{background:var(--accent2)}
+.s-toggle.off{background:rgba(255,255,255,0.15)}
+.s-toggle::after{
+content:'';width:22px;height:22px;border-radius:11px;background:#fff;
+position:absolute;top:2px;transition:left 0.3s;
+box-shadow:0 2px 6px rgba(0,0,0,0.4);
+}
+.s-toggle.on::after{left:20px}
+.s-toggle.off::after{left:2px}
+.s-select{
+background:rgba(255,255,255,0.1);border:0.5px solid var(--glass-border);
+border-radius:8px;color:var(--text-primary);font-size:13px;
+padding:5px 10px;outline:none;cursor:pointer;font-family:var(--font);
+}
+.s-select option{background:#1e1e22;color:#fff}
+.accent-dots{display:flex;gap:8px}
+.accent-dot{width:22px;height:22px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all 0.2s}
+.accent-dot.sel{border-color:#fff;transform:scale(1.15)}
+.color-preview{
+display:flex;gap:8px;flex-wrap:wrap;
+}
+.wall-thumb{
+width:80px;height:50px;border-radius:8px;cursor:pointer;
+border:2px solid transparent;transition:all 0.2s;overflow:hidden;
+}
+.wall-thumb.sel{border-color:var(--accent)}
+
+/* PROJECTS WINDOW */
+.proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:20px}
+.proj-card{
+background:rgba(255,255,255,0.06);border-radius:14px;
+border:0.5px solid var(--glass-border);padding:16px;
+transition:all 0.2s;cursor:default;
+}
+.proj-card:hover{background:rgba(255,255,255,0.10);transform:translateY(-2px);box-shadow:var(--shadow-sm)}
+.proj-icon{font-size:28px;margin-bottom:10px}
+.proj-title{font-size:14px;font-weight:600;color:var(--text-primary);margin-bottom:5px}
+.proj-desc{font-size:12px;color:var(--text-secondary);line-height:1.5;margin-bottom:12px}
+.proj-btn{
+display:inline-flex;align-items:center;gap:5px;
+padding:5px 12px;border-radius:20px;
+background:rgba(10,132,255,0.25);color:var(--accent);
+font-size:12px;font-weight:500;text-decoration:none;
+border:0.5px solid rgba(10,132,255,0.4);transition:all 0.2s;
+}
+.proj-btn:hover{background:rgba(10,132,255,0.4)}
+
+/* ABOUT */
+.about-wrap{padding:24px;text-align:center}
+.about-avatar{
+width:96px;height:96px;border-radius:50%;
+border:3px solid rgba(10,132,255,0.5);
+box-shadow:0 0 24px rgba(10,132,255,0.3);
+object-fit:cover;margin:0 auto 14px;display:block;
+}
+.about-name{font-size:22px;font-weight:700;margin-bottom:4px}
+.about-role{font-size:14px;color:var(--accent);margin-bottom:16px;font-weight:500}
+.about-bio{font-size:13px;color:var(--text-secondary);line-height:1.7;text-align:left;margin-bottom:20px;padding:14px;background:rgba(255,255,255,0.05);border-radius:12px}
+.about-links{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.about-link{
+display:flex;align-items:center;gap:7px;padding:8px 16px;
+border-radius:20px;font-size:13px;font-weight:500;
+text-decoration:none;transition:all 0.2s;
+background:rgba(255,255,255,0.08);color:var(--text-primary);
+border:0.5px solid var(--glass-border);
+}
+.about-link:hover{background:rgba(255,255,255,0.15)}
+
+/* TECH */
+.tech-cat{padding:0 20px 20px}
+.tech-cat-title{font-size:12px;font-weight:600;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.8px;margin:16px 0 10px}
+.tech-grid2{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.tech-item2{
+background:rgba(255,255,255,0.06);border-radius:12px;
+border:0.5px solid var(--glass-border);padding:12px;
+transition:all 0.2s;
+}
+.tech-item2:hover{background:rgba(255,255,255,0.10)}
+.tech-item2 .t-icon{font-size:22px;margin-bottom:6px}
+.tech-item2 .t-name{font-size:12px;font-weight:600;color:var(--text-primary);margin-bottom:6px}
+.tech-bar-bg{height:4px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden}
+.tech-bar-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--accent),#5E5CE6);transition:width 1.2s cubic-bezier(.22,1,.36,1)}
+
+/* RESUME */
+.resume-wrap{padding:20px}
+.resume-header{text-align:center;margin-bottom:20px}
+.resume-header h2{font-size:20px;font-weight:700;color:var(--text-primary)}
+.resume-header p{font-size:12px;color:var(--text-secondary);margin-top:4px}
+.resume-section{margin-bottom:20px}
+.resume-section-title{font-size:12px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.resume-item{
+padding:12px;background:rgba(255,255,255,0.04);border-radius:10px;
+border-left:2px solid var(--accent);margin-bottom:8px;
+}
+.resume-item h4{font-size:13px;font-weight:600;color:var(--text-primary)}
+.resume-item .period{font-size:11px;color:var(--accent);margin:2px 0 6px;font-style:italic}
+.resume-item p{font-size:12px;color:var(--text-secondary);line-height:1.5}
+.skill-chips{display:flex;flex-wrap:wrap;gap:6px}
+.skill-chip{
+padding:4px 10px;border-radius:20px;font-size:11px;font-weight:500;
+background:rgba(10,132,255,0.15);color:var(--accent);
+border:0.5px solid rgba(10,132,255,0.3);
+}
+
+/* CONTACT */
+.contact-wrap{padding:20px}
+.contact-item{
+display:flex;align-items:center;gap:14px;padding:14px 16px;
+background:rgba(255,255,255,0.05);border-radius:12px;
+border:0.5px solid var(--glass-border);margin-bottom:8px;
+cursor:pointer;text-decoration:none;transition:all 0.2s;
+}
+.contact-item:hover{background:rgba(255,255,255,0.10);border-color:var(--glass-border-strong)}
+.contact-icon-wrap{
+width:40px;height:40px;border-radius:10px;
+display:flex;align-items:center;justify-content:center;
+font-size:18px;flex-shrink:0;
+}
+.contact-item .c-title{font-size:13px;font-weight:600;color:var(--text-primary)}
+.contact-item .c-sub{font-size:11px;color:var(--text-secondary)}
+.contact-item i.arr{color:var(--text-tertiary);margin-left:auto;font-size:12px}
+
+/* CALCULATOR */
+.calc-wrap{padding:16px;background:rgba(0,0,0,0.2)}
+#calc-display{
+text-align:right;padding:16px;margin-bottom:8px;
+}
+#calc-expr{font-size:14px;color:var(--text-secondary);min-height:20px;word-break:break-all}
+#calc-result{font-size:44px;font-weight:300;color:var(--text-primary);word-break:break-all;line-height:1.1}
+.calc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.cb{
+height:64px;border-radius:50%;border:none;cursor:pointer;
+font-size:20px;font-weight:400;font-family:var(--font);
+transition:all 0.1s;display:flex;align-items:center;justify-content:center;
+}
+.cb:active{transform:scale(0.94)}
+.cb.func{background:rgba(165,165,165,0.3);color:var(--text-primary)}
+.cb.func:hover{background:rgba(165,165,165,0.45)}
+.cb.op{background:rgba(255,159,10,0.9);color:#fff}
+.cb.op:hover{background:rgba(255,159,10,1)}
+.cb.op.active-op{background:#fff;color:rgba(255,159,10,1)}
+.cb.num{background:rgba(58,58,60,0.85);color:var(--text-primary)}
+.cb.num:hover{background:rgba(82,82,86,0.85)}
+.cb.zero{grid-column:span 2;border-radius:32px;justify-content:flex-start;padding-left:24px}
+
+/* BROWSER */
+.browser-wrap{display:flex;flex-direction:column;height:100%}
+.browser-bar{
+display:flex;align-items:center;gap:8px;padding:10px 14px;
+background:rgba(255,255,255,0.04);border-bottom:0.5px solid var(--glass-border);
+}
+.browser-nav-btn{
+width:28px;height:28px;border-radius:50%;border:none;
+background:rgba(255,255,255,0.08);color:var(--text-secondary);
+cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;
+transition:all 0.15s;flex-shrink:0;
+}
+.browser-nav-btn:hover{background:rgba(255,255,255,0.15);color:var(--text-primary)}
+#browser-url{
+flex:1;background:rgba(255,255,255,0.08);border:0.5px solid var(--glass-border);
+border-radius:8px;padding:6px 10px;font-size:12px;color:var(--text-primary);
+outline:none;font-family:var(--font);
+}
+#browser-url:focus{border-color:var(--accent);background:rgba(10,132,255,0.08)}
+.browser-go{
+padding:6px 12px;background:var(--accent);color:#fff;
+border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;
+transition:all 0.15s;flex-shrink:0;
+}
+.browser-go:hover{background:#0070e0}
+#browser-frame{
+width:100%;height:380px;border:none;
+background:#fff;border-radius:0 0 var(--radius-xl) var(--radius-xl);
+}
+.browser-bookmarks{
+display:flex;gap:6px;padding:6px 14px;
+border-bottom:0.5px solid var(--glass-border);overflow-x:auto;
+}
+.bm{
+padding:3px 10px;border-radius:12px;font-size:11px;font-weight:500;
+background:rgba(255,255,255,0.07);color:var(--text-secondary);
+cursor:pointer;white-space:nowrap;border:0.5px solid var(--glass-border);
+transition:all 0.15s;
+}
+.bm:hover{background:rgba(255,255,255,0.12);color:var(--text-primary)}
+
+/* SNAKE */
+.snake-wrap{padding:16px;display:flex;flex-direction:column;align-items:center;gap:12px}
+.snake-stats{display:flex;gap:20px;font-size:13px;font-weight:600}
+.snake-stat span{color:var(--text-secondary);font-weight:400}
+#snake-canvas{
+border-radius:12px;border:0.5px solid var(--glass-border);
+background:rgba(0,0,0,0.3);display:block;
+}
+.snake-ctrl-row{display:flex;gap:8px;justify-content:center}
+.sk-btn{
+padding:7px 18px;border-radius:8px;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font);transition:all 0.15s;
+}
+.sk-btn.start{background:var(--accent2);color:#fff}
+.sk-btn.rst{background:var(--accent4);color:#000}
+.sk-btn:hover{opacity:0.85;transform:scale(1.02)}
+
+/* TRASH */
+.trash-empty{padding:60px 20px;text-align:center;color:var(--text-tertiary)}
+.trash-empty i{font-size:64px;margin-bottom:16px;display:block;opacity:0.4}
+.trash-empty p{font-size:14px}
+
+/* TERMINAL */
+.term-wrap{
+background:#0d1117;padding:14px;min-height:300px;max-height:420px;overflow-y:auto;
+font-family:'SF Mono','Fira Code',monospace;font-size:13px;
+}
+.term-line{line-height:1.7;word-break:break-all}
+.term-line.cmd::before{content:'vini@macbook ~ % ';color:#30D158}
+.term-line.out{color:#c9d1d9}
+.term-line.err{color:#FF453A}
+.term-line.info{color:#0A84FF}
+.term-input-row{
+display:flex;align-items:center;padding:8px 14px;
+background:#0d1117;border-top:0.5px solid var(--glass-border);
+font-family:'SF Mono','Fira Code',monospace;font-size:13px;
+}
+.term-prompt{color:#30D158;white-space:nowrap;margin-right:8px;font-size:13px}
+#term-input{
+flex:1;background:none;border:none;outline:none;color:#c9d1d9;font-size:13px;font-family:inherit;
+}
+
+/* MISSION CONTROL BUTTON */
+#mission-btn{
+position:fixed;bottom:84px;right:16px;z-index:700;
+width:36px;height:36px;border-radius:50%;
+background:rgba(30,30,35,0.7);
+backdrop-filter:blur(12px);
+border:0.5px solid var(--glass-border);
+display:flex;align-items:center;justify-content:center;
+cursor:pointer;color:var(--text-secondary);font-size:14px;
+transition:all 0.2s;box-shadow:var(--shadow-sm);
+}
+#mission-btn:hover{background:rgba(50,50,60,0.8);color:var(--text-primary);transform:scale(1.08)}
+
+/* MISSION CONTROL OVERLAY */
+#mission-overlay{
+position:fixed;inset:28px 0 90px 0;z-index:600;
+background:rgba(0,0,0,0.65);backdrop-filter:blur(6px);
+display:none;align-items:center;justify-content:center;flex-wrap:wrap;gap:16px;padding:40px;
+}
+#mission-overlay.open{display:flex}
+.mc-thumb{
+width:180px;height:120px;border-radius:12px;
+border:0.5px solid var(--glass-border);cursor:pointer;
+overflow:hidden;display:flex;align-items:center;justify-content:center;
+font-size:12px;color:var(--text-secondary);text-align:center;
+transition:all 0.2s;
+backdrop-filter:blur(8px);
+}
+.mc-thumb:hover{transform:scale(1.06);border-color:var(--accent)}
+.mc-label{position:absolute;bottom:8px;left:0;right:0;text-align:center;font-size:11px;font-weight:500;color:var(--text-secondary)}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.2);border-radius:2px}
+::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,0.35)}
+
+/* ANIMATIONS */
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes scaleIn{from{opacity:0;transform:translateX(-50%) scale(0.88)}to{opacity:1;transform:translateX(-50%) scale(1)}}
+.window.visible{animation:scaleIn 0.35s cubic-bezier(.34,1.2,.64,1)}
+
+/* FOCUS RING */
+button:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* RESPONSIVE */
+@media(max-width:680px){
+.window{width:96vw;min-width:0}
+.proj-grid{grid-template-columns:1fr}
+.tech-grid2{grid-template-columns:1fr 1fr}
+#spotlight-box{width:94vw}
+}
+</style>
 </head>
-
 <body>
-    <div id="loading-screen">
-        <div class="loader-content">
-            <img src="img/Vini.png" alt="Foto de Perfil" class="loader-photo">
-            <h2 class="loader-name">Vinícius Silva</h2>
-        </div>
-        <div class="loader-pulse-dot"></div>
-    </div>
 
-    <header id="menu-bar">
-        <nav>
-            <div class="app-info">
-                <span class="app-icon"><i class="fa-solid fa-code"></i></span>
-                <span class="app-name">Portfolio</span>
-            </div>
-            <div class="menu-items">
-                <span class="menu-item active">Início</span>
-                <span class="menu-item">Arquivo</span>
-                <span class="menu-item">Editar</span>
-            </div>
-            <div class="system-icons">
-                <i class="fa-solid fa-wifi"></i>
-                <i class="fa-solid fa-moon dark-mode-icon" id="theme-toggle"></i>
-                <i class="fa-solid fa-bell"></i>
-                <span class="current-time" id="current-time"></span>
-            </div>
-        </nav>
-    </header>
+<!-- WALLPAPER -->
+<div id="wallpaper"></div>
 
-    <main class="desktop">
-        <div class="desktop-icon-container">
-            <div class="desktop-icon" id="projects-icon">
-                <i class="fa-solid fa-folder-open icon-large"></i>
-                <span>Projetos</span>
-            </div>
-            <div class="desktop-icon" id="contact-icon">
-                <i class="fa-solid fa-envelope icon-large"></i>
-                <span>Contato</span>
-            </div>
-            <div class="desktop-icon" id="about-icon">
-                <i class="fa-solid fa-user icon-large"></i>
-                <span>Sobre Mim</span>
-            </div>
-            <div class="desktop-icon" id="notes-icon">
-                <i class="fa-solid fa-note-sticky icon-large"></i>
-                <span>Currículo</span>
-            </div>
-            <div class="desktop-icon" id="tech-icon">
-                <i class="fa-solid fa-microchip icon-large"></i>
-                <span>Tecnologias</span>
-            </div>
-            <div class="desktop-icon" id="trash-icon">
-                <i class="fa-solid fa-trash icon-large"></i>
-                <span>Lixeira</span>
-            </div>
-        </div>
-
-        <div id="projects-window" class="window glassmorphism">
-            <div class="window-header">
-                <div class="window-buttons">
-                    <span class="window-button close-btn" data-target="projects-window"></span>
-                    <span class="window-button minimize-btn"></span>
-                    <span class="window-button maximize-btn"></span>
-                </div>
-                <div class="window-title">
-                    <i class="fa-solid fa-folder-open"></i>
-                    <span>Projetos</span>
-                </div>
-            </div>
-            <div class="window-content">
-                <div class="content-list">
-                    <div class="list-item">
-                        <i class="fa-brands fa-python"></i>
-                        <h3>AVLIS - PDV</h3>
-                        <p>Sistema de ponto de venda em Electron e Python.</p>
-                        <a href="https://avlis-pdv.onrender.com/" target="_blank" class="window-action-btn">
-                            Abrir <i class="fa-solid fa-up-right-from-square"></i>
-                        </a>
-                    </div>
-                    <div class="list-item">
-    <i class="fa-solid fa-bag-shopping"></i>
-    <h3>AvoMedia</h3>
-    <p>AVO Media é uma agência criativa que ajuda marcas a amadurecerem por meio de estratégia, design e experiências digitais que geram crescimento.</p>
-    <a href="https://ayaycabron.github.io/AVO/#" target="_blank" class="window-action-btn">
-        Abrir <i class="fa-solid fa-up-right-from-square"></i>
-    </a>
-</div>
-                    <div class="list-item">
-    <i class="fa-solid fa-bag-shopping"></i>
-    <h3>Aurja Collective</h3>
-    <p>Desenvolvimento e customização de e-commerce na plataforma Shopify, com foco em experiência do usuário, performance e identidade visual da marca. Implementação de melhorias em layout, navegação e otimização da loja para um cliente real.</p>
-    <a href="https://aurjacollective.com/" target="_blank" class="window-action-btn">
-        Abrir <i class="fa-solid fa-up-right-from-square"></i>
-    </a>
-</div>
-                    <div class="list-item">
-                        <i class="fa-solid fa-chart-line"></i>
-                        <h3>FinanceApp - Em Desenvolvimento</h3>
-                        <p>App de finanças com IA, dashboards e análise de dados.</p>
-                        <a href="https://financeapp-frontend.onrender.com/" class="window-action-btn">
-                            Abrir <i class="fa-solid fa-up-right-from-square"></i>
-                        </a>
-                    </div>
-                                        <div class="list-item">
-                        <i class="fa-solid fa-chart-line"></i>
-                        <h3>Controle | Finanças Pessoais</h3>
-                        <p>SPA de finanças com dashboards e análise simples.</p>
-                        <a href="https://ayaycabron.github.io/ControleFinanceiro/" class="window-action-btn">
-                            Abrir <i class="fa-solid fa-up-right-from-square"></i>
-                        </a>
-                    </div>
-                                                            <div class="list-item">
-                        <i class="fab fa-js"></i>
-                        <h3>Lumi</h3>
-                        <p>SPA em JavaScript que permite organizar, avaliar e criar rankings de livros, filmes e séries, com dados e imagens obtidos de APIs externas.</p>
-                        <a href="https://ayaycabron.github.io/lumi/" class="window-action-btn">
-                            Abrir <i class="fa-solid fa-up-right-from-square"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="contact-window" class="window glassmorphism">
-            <div class="window-header">
-                <div class="window-buttons">
-                    <span class="window-button close-btn" data-target="contact-window"></span>
-                    <span class="window-button minimize-btn"></span>
-                    <span class="window-button maximize-btn"></span>
-                </div>
-                <div class="window-title">
-                    <i class="fa-solid fa-envelope"></i>
-                    <span>Contato</span>
-                </div>
-            </div>
-            <div class="window-content">
-                <ul class="contact-list">
-                    <li>
-                        <a href="#" class="contact-link open-notes">
-                            <i class="fa-solid fa-file-pdf"></i>
-                            <span>Currículo</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://www.linkedin.com/in/viniciuseduardolima/" target="_blank" class="contact-link">
-                            <i class="fa-brands fa-linkedin-in"></i>
-                            <span>LinkedIn</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://github.com/ayaycabron" target="_blank" class="contact-link">
-                            <i class="fa-brands fa-github"></i>
-                            <span>GitHub</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <div id="about-window" class="window glassmorphism">
-            <div class="window-header">
-                <div class="window-buttons">
-                    <span class="window-button close-btn" data-target="about-window"></span>
-                    <span class="window-button minimize-btn"></span>
-                    <span class="window-button maximize-btn"></span>
-                </div>
-                <div class="window-title">
-                    <i class="fa-solid fa-user"></i>
-                    <span>Sobre mim</span>
-                </div>
-            </div>
-            <div class="window-content about-content">
-                <img src="img/Vini.png" alt="Foto de Perfil" class="about-photo">
-                <h2>Vinícius Silva</h2>
-                <p>Desenvolvedor Full-Stack</p>
-                <hr>
-                <p>Olá! Sou um desenvolvedor full-stack apaixonado por criar soluções digitais que sejam bonitas,
-                    funcionais e intuitivas. Tenho experiência em tecnologias como Electron, Python e JavaScript, e
-                    estou sempre em busca de novos desafios para aprimorar minhas habilidades e entregar produtos de
-                    alta qualidade.</p>
-            </div>
-        </div>
-
-        <div id="notes-window" class="window glassmorphism">
-            <div class="window-header">
-                <div class="window-buttons">
-                    <span class="window-button close-btn" data-target="notes-window"></span>
-                    <span class="window-button minimize-btn"></span>
-                    <span class="window-button maximize-btn"></span>
-                </div>
-                <div class="window-title">
-                    <i class="fa-solid fa-note-sticky"></i>
-                    <span>Currículo - Vinícius Silva</span>
-                </div>
-            </div>
-            <div class="window-content notes-content">
-                <div class="notes-header">
-                    <h2>VINICIUS SILVA</h2>
-                    <p>Curitiba, PR</p>
-                    <p>eduardovinicius1701@gmail.com | +55 41 98480 2813</p>
-                </div>
-
-                <div class="notes-section">
-                    <h3><i class="fa-solid fa-user-tie"></i> Resumo Profissional</h3>
-                    <p>Profissional multifacetado com expertise em gestão de infraestrutura de TI, outsourcing de ativos
-                        e análise de dados. Sólida experiência em manutenção de hardware e software, monitoramento de
-                        servidores e redes, e otimização de estoque. Proficiente em Python (Flask) e Node.js (Vite) para
-                        desenvolvimento web, com habilidade na criação de dashboards (BI) e manuseio de bancos de dados
-                        MySQL e PostgreSQL. Suporte técnico e relacionamento com clientes e fornecedores, garantindo a
-                        eficiência operacional e a tomada de decisão estratégica.</p>
-                </div>
-
-                <div class="notes-section">
-                    <h3><i class="fa-solid fa-info-circle"></i> Detalhes Pessoais</h3>
-                    <ul>
-                        <li><strong>Atualmente Empregado:</strong> Não</li>
-                        <li><strong>Nível de escolaridade:</strong> Ensino Superior</li>
-                        <li><strong>Setor:</strong> Administrativa, Instalação e Manutenção, TI - Design e Documentação,
-                            TI - Suporte e Operações</li>
-                        <li><strong>Total de anos de experiência:</strong> 7</li>
-                    </ul>
-                </div>
-
-                <div class="notes-section">
-                    <h3><i class="fa-solid fa-briefcase"></i> Experiência Profissional</h3>
-
-                    <div class="experience-item">
-                        <h4>CLOUDFY TECNOLOGIA - Curitiba, PR</h4>
-                        <p class="experience-period">abril de 2023 a agosto de 2024</p>
-                        <p>Gerenciamento end-to-end do ciclo de vida de implantação de sistemas, abrangendo desde a
-                            análise de requisitos até a entrega final.</p>
-                        <ul>
-                            <li><strong>Infraestrutura e Banco de Dados:</strong> Projeção, configuração e manutenção de
-                                ambientes de banco de dados MySQL e PostgreSQL, garantindo performance, segurança e
-                                integridade dos dados. Execução de rotinas de ETL (Extract, Transform, Load) para
-                                importação e normalização de produtos e dados fiscais de diversas fontes, assegurando a
-                                consistência da informação. Otimização de queries e monitoramento de clusters de bancos
-                                de dados para identificar e resolver gargalos de performance.</li>
-                            <li><strong>Desenvolvimento e Integração:</strong> Criação e deployment de totens de
-                                autoatendimento e cardápios digitais, utilizando tecnologias web e frameworks modernos.
-                                Desenvolvimento e manutenção de APIs e conectores para integração fluida com sistemas
-                                legados (ERPs, PDVs, etc.) e plataformas de terceiros. Automação de processos de
-                                deployment e configuração via scripts e ferramentas de IaC (Infrastructure as Code).
-                            </li>
-                            <li><strong>Suporte e Treinamento ao Cliente:</strong> Atuação como ponto focal técnico,
-                                prestando suporte especializado e resolvendo incidentes complexos durante e após a
-                                implantação. Condução de treinamentos técnicos e operacionais para usuários finais e
-                                equipes internas dos clientes, garantindo a autonomia e o uso eficaz das soluções
-                                implementadas. Elaboração de documentação técnica (manuais, runbooks, especificações)
-                                para subsidiar o uso e a manutenção dos sistemas.</li>
-                        </ul>
-                    </div>
-
-                    <div class="experience-item">
-                        <h4>Simpress HP</h4>
-                        <p class="experience-period">2022 a 2023</p>
-                        <p><strong>Operador de Site Jr</strong></p>
-                        <ul>
-                            <li>Gestão de Outsourcing e Implementação de Ativos: Planejamento e mapeamento de áreas de
-                                instalação, homologação e configuração de equipamentos, deployment e suporte on-site.
-                            </li>
-                            <li>Análise de Dados e Otimização de Recursos: Desenvolvimento e aplicação de rotinas
-                                analíticas para aprimorar a gestão de insumos, coleta e análise de dados de consumo e
-                                elaboração de KPIs e dashboards.</li>
-                            <li>Suporte Técnico e Relacionamento com o Cliente: Atuação como ponto focal, suporte Nível
-                                1/2, elaboração de documentação técnica e garantia de cumprimento de SLAs.</li>
-                        </ul>
-                    </div>
-
-                    <div class="experience-item">
-                        <h4>Elco Engenharia</h4>
-                        <p class="experience-period">2020 a 2021</p>
-                        <p><strong>Auxiliar de TI</strong></p>
-                        <p>Analista de Suporte de TI e Operações: Atuação multifacetada na manutenção preventiva e
-                            corretiva de infraestrutura de TI, com foco na gestão proativa de ativos, monitoramento de
-                            sistemas e otimização de processos, garantindo a continuidade e a eficiência operacional.
-                        </p>
-                        <ul>
-                            <li>Manutenção e Gerenciamento de Ativos: Execução de manutenção preditiva, preventiva e
-                                corretiva em hardware, elaboração e alimentação de planilhas de controle de ativos e
-                                gestão estratégica de estoque de peças e insumos.</li>
-                        </ul>
-                    </div>
-
-                    <div class="experience-item">
-                        <h4>Sanepar - Departamento de Recursos</h4>
-                        <p class="experience-period">2018 a 2019</p>
-                        <p><strong>Auxiliar Administrativo</strong></p>
-                        <ul>
-                            <li>Gestão e Análise de Dados: Desenvolvimento e atualização de planilhas eletrônicas,
-                                implementação de fórmulas avançadas, tabelas dinâmicas e gráficos.</li>
-                            <li>Apoio Estratégico a Recursos Humanos: Suporte analítico e operacional, colaboração na
-                                coleta e processamento de informações e auxílio na elaboração de relatórios gerenciais.
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="notes-section">
-                    <h3><i class="fa-solid fa-graduation-cap"></i> Escolaridade</h3>
-                    <div class="education-item">
-                        <h4>Pontificia Universidade Católica do Paraná - Curitiba, PR</h4>
-                        <p><strong>Graduação - ANÁLISE E DESENVOLVIMENTO DE SISTEMAS</strong></p>
-                    </div>
-                </div>
-
-                <div class="notes-section">
-                    <h3><i class="fa-solid fa-star"></i> Habilidades e Competências</h3>
-                    <div class="skills-grid">
-                        <span class="skill-tag">Gerenciamento de banco de dados</span>
-                        <span class="skill-tag">Pesquisa</span>
-                        <span class="skill-tag">Hardware de computadores</span>
-                        <span class="skill-tag">Experiência administrativa</span>
-                        <span class="skill-tag">Conhecimento em informática</span>
-                        <span class="skill-tag">Manutenção</span>
-                        <span class="skill-tag">Python (3 anos)</span>
-                        <span class="skill-tag">Microsoft Office</span>
-                        <span class="skill-tag">Gestão de riscos</span>
-                        <span class="skill-tag">Liderança</span>
-                        <span class="skill-tag">Flutter (1 ano)</span>
-                        <span class="skill-tag">React (1 ano)</span>
-                        <span class="skill-tag">PostgreSQL (2 anos)</span>
-                        <span class="skill-tag">Atendimento ao cliente</span>
-                        <span class="skill-tag">Flask (1 ano)</span>
-                        <span class="skill-tag">Competências organizacionais</span>
-                    </div>
-                </div>
-
-                <div class="notes-section">
-                    <h3><i class="fa-solid fa-language"></i> Idiomas</h3>
-                    <p><strong>Inglês</strong> - Avançado</p>
-                </div>
-
-                <div class="notes-section">
-                    <h3><i class="fa-solid fa-link"></i> Links</h3>
-                    <ul>
-                        <li><strong>GitHub:</strong> <a href="https://github.com/AyayCabron"
-                                target="_blank">https://github.com/AyayCabron</a></li>
-                        <li><strong>FinanceApp:</strong> <a href="https://financeapp-frontend.onrender.com"
-                                target="_blank">https://financeapp-frontend.onrender.com</a></li>
-                    </ul>
-                </div>
-
-                <div class="notes-section">
-                    <h3><i class="fa-solid fa-certificate"></i> Certificações e Licenças</h3>
-                    <ul>
-                        <li>ANÁLISE DE DADOS NO POWER BI (junho de 2025 a Data Atual)</li>
-                        <li>SEGURANÇA EM TECNOLOGIA DA INFORMAÇÃO (junho de 2025 a Data Atual)</li>
-                        <li>INTERFACE GRÁFICA UTILIZANDO A LINGUAGEM PYTHON (junho de 2025 a Data Atual)</li>
-                        <li>AGRONOMIA 4.0 - CREA-PR (março de 2025 a Data Atual)</li>
-                        <li>Internet das Coisas (IoT) (março de 2025 a Data Atual)</li>
-                        <li>Compliance (março de 2025 a Data Atual)</li>
-                    </ul>
-                </div>
-
-                <div class="notes-section">
-                    <h3><i class="fa-solid fa-book"></i> Publicações</h3>
-                    <div class="publication-item">
-                        <h4>FinanceApp</h4>
-                        <p><a href="https://financeapp-frontend.onrender.com"
-                                target="_blank">https://financeapp-frontend.onrender.com</a></p>
-                        <p>junho de 2025</p>
-                        <p>Aplicação de gestão de finanças em fase de Desenvolvimento e Refinamento de MVP, com primeiro
-                            deployment realizado no Render e Railway. Desenvolvida com backend em Python (Flask) e
-                            frontend em Node.js (Vite + React), utilizando PostgreSQL como banco de dados e Alembic para
-                            migrações. A segurança é garantida pela criptografia JWT (JSON Web Tokens) para registro e
-                            autenticação de usuários. O sistema oferece funcionalidades robustas como gerenciamento de
-                            transações e contas, análise inteligente de gastos, integração com planilhas e dashboards
-                            para visualização de dados, além de listas personalizadas, uma calculadora inteligente com
-                            IA básica e definição de metas/objetivos. Atualmente, a ferramenta apresenta instabilidades
-                            pontuais em operações HTTP (POST/GET). Notavelmente, após a criação de uma nova categoria, é
-                            necessário um re-login para a visualização imediata da atualização, apesar da persistência
-                            bem-sucedida dos dados no banco de dados. As demais funcionalidades estão em fase de
-                            validação e otimização para operação plena.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </div>
-
-        <div id="tech-window" class="window glassmorphism">
-            <div class="window-header">
-                <div class="window-buttons">
-                    <span class="window-button close-btn" data-target="tech-window"></span>
-                    <span class="window-button minimize-btn"></span>
-                    <span class="window-button maximize-btn"></span>
-                </div>
-                <div class="window-title">
-                    <i class="fa-solid fa-microchip"></i>
-                    <span>Tecnologias</span>
-                </div>
-            </div>
-            <div class="window-content tech-content">
-                <h2>Tecnologias que Utilizo</h2>
-                <p class="tech-intro">Aqui estão as principais tecnologias e ferramentas com as quais trabalho:</p>
-
-                <div class="tech-category">
-                    <h3><i class="fa-solid fa-code"></i> Linguagens de Programação</h3>
-                    <div class="tech-grid">
-                        <div class="tech-item">
-                            <i class="fa-brands fa-python"></i>
-                            <span>Python</span>
-                            <div class="tech-level">
-                                <div class="tech-level-bar" style="width: 90%"></div>
-                            </div>
-                        </div>
-                        <div class="tech-item">
-                            <i class="fa-brands fa-js"></i>
-                            <span>JavaScript</span>
-                            <div class="tech-level">
-                                <div class="tech-level-bar" style="width: 85%"></div>
-                            </div>
-                        </div>
-                        <div class="tech-item">
-                            <i class="fa-brands fa-html5"></i>
-                            <span>HTML5</span>
-                            <div class="tech-level">
-                                <div class="tech-level-bar" style="width: 95%"></div>
-                            </div>
-                        </div>
-                        <div class="tech-item">
-                            <i class="fa-brands fa-css3-alt"></i>
-                            <span>CSS3</span>
-                            <div class="tech-level">
-                                <div class="tech-level-bar" style="width: 90%"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tech-category">
-                    <h3><i class="fa-solid fa-database"></i> Bancos de Dados</h3>
-                    <div class="tech-grid">
-                        <div class="tech-item">
-                            <i class="fa-solid fa-database"></i>
-                            <span>MySQL</span>
-                            <div class="tech-level">
-                                <div class="tech-level-bar" style="width: 85%"></div>
-                            </div>
-                        </div>
-                        <div class="tech-item">
-                            <i class="fa-solid fa-database"></i>
-                            <span>PostgreSQL</span>
-                            <div class="tech-level">
-                                <div class="tech-level-bar" style="width: 80%"></div>
-                            </div>
-                        </div>
-                        <div class="tech-item">
-                            <i class="fa-solid fa-fire"></i>
-                            <span>Firebase</span>
-                            <div class="tech-level">
-                                <div class="tech-level-bar" style="width: 75%"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tech-category">
-                    <h3><i class="fa-solid fa-layer-group"></i> Frameworks & Bibliotecas</h3>
-                    <div class="tech-grid">
-                        <div class="tech-item">
-                            <i class="fa-brands fa-react"></i>
-                            <span>React</span>
-                            <div class="tech-level">
-                                <div class="tech-level-bar" style="width: 80%"></div>
-                            </div>
-                        </div>
-                        <div class="tech-item">
-                            <i class="fa-solid fa-flask"></i>
-                            <span>Flask</span>
-                            <div class="tech-level">
-                                <div class="tech-level-bar" style="width: 85%"></div>
-                            </div>
-                        </div>
-                        <div class="tech-item">
-                            <i class="fa-brands fa-node-js"></i>
-                            <span>Node.js</span>
-                            <div class="tech-level">
-                                <div class="tech-level-bar" style="width: 75%"></div>
-                            </div>
-                        </div>
-                        <div class="tech-item">
-                            <i class="fa-brands fa-vuejs"></i>
-                            <span>Vite</span>
-                            <div class="tech-level">
-                                <div class="tech-level-bar" style="width: 80%"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tech-category">
-                    <h3><i class="fa-solid fa-desktop"></i> Ferramentas & Plataformas</h3>
-                    <div class="tech-grid">
-                        <div class="tech-item">
-                            <i class="fa-brands fa-git-alt"></i>
-                            <span>Git</span>
-                            <div class="tech-level">
-                                <div class="tech-level-bar" style="width: 90%"></div>
-                            </div>
-                        </div>
-                        <div class="tech-item">
-                            <i class="fa-brands fa-github"></i>
-                            <span>GitHub</span>
-                            <div class="tech-level">
-                                <div class="tech-level-bar" style="width: 85%"></div>
-                            </div>
-                        </div>
-                        <div class="tech-item">
-                            <i class="fa-brands fa-docker"></i>
-                            <span>Docker</span>
-                            <div class="tech-level">
-                                <div class="tech-level-bar" style="width: 70%"></div>
-                            </div>
-                        </div>
-                        <div class="tech-item">
-                            <i class="fa-solid fa-cloud"></i>
-                            <span>Render</span>
-                            <div class="tech-level">
-                                <div class="tech-level-bar" style="width: 80%"></div>
-                            </div>
-                        </div>
-                        <div class="tech-item">
-                            <i class="fa-brands fa-microsoft"></i>
-                            <span>.NET</span>
-                            <div class="tech-level">
-                                <div class="tech-level-bar" style="width: 65%"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tech-category">
-                    <h3><i class="fa-solid fa-mobile-alt"></i> Mobile & Desktop</h3>
-                    <div class="tech-grid">
-                        <div class="tech-item">
-                            <i class="fa-brands fa-android"></i>
-                            <span>Android</span>
-                            <div class="tech-level">
-                                <div class="tech-level-bar" style="width: 75%"></div>
-                            </div>
-                        </div>
-                        <div class="tech-item">
-                            <i class="fa-brands fa-apple"></i>
-                            <span>iOS</span>
-                            <div class="tech-level">
-                                <div class="tech-level-bar" style="width: 70%"></div>
-                            </div>
-                        </div>
-                        <div class="tech-item">
-                            <i class="fa-solid fa-window-maximize"></i>
-                            <span>Electron</span>
-                            <div class="tech-level">
-                                <div class="tech-level-bar" style="width: 80%"></div>
-                            </div>
-                        </div>
-                        <div class="tech-item">
-                            <i class="fa-brands fa-flutter"></i>
-                            <span>Flutter</span>
-                            <div class="tech-level">
-                                <div class="tech-level-bar" style="width: 75%"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="trash-window" class="window glassmorphism">
-            <div class="window-header">
-                <div class="window-buttons">
-                    <span class="window-button close-btn" data-target="trash-window"></span>
-                    <span class="window-button minimize-btn"></span>
-                    <span class="window-button maximize-btn"></span>
-                </div>
-                <div class="window-title">
-                    <i class="fa-solid fa-trash"></i>
-                    <span>Lixeira</span>
-                </div>
-            </div>
-            <div class="window-content">
-                <div class="content-list">
-                    <div class="list-item">
-                        <i class="fa-solid fa-file"></i>
-                        <h3>Lixeira vazia</h3>
-                        <p>Arraste itens para a lixeira para excluí-los.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-<div id="snake-window" class="window glassmorphism">
-    <div class="window-header">
-        <div class="window-buttons">
-            <span class="window-button close-btn" data-target="snake-window"></span>
-            <span class="window-button minimize-btn"></span>
-            <span class="window-button maximize-btn"></span>
-        </div>
-        <div class="window-title">
-            <i class="fa-solid fa-gamepad"></i>
-            <span>Snake Game</span>
-        </div>
-    </div>
-    <div class="window-content">
-        <div class="snake-game-container">
-            <div class="snake-game-header">
-                <div class="snake-score-display">
-                    <span>Score: <span id="snake-score">0</span></span>
-                    <span>Level: <span id="snake-level">1</span></span>
-                </div>
-                <div class="snake-controls">
-                    <button id="snake-start" class="mac-control-btn start-btn">Start</button>
-                    <button id="snake-restart" class="mac-control-btn restart-btn">Restart</button>
-                </div>
-            </div>
-            <canvas id="snake-canvas" width="400" height="400"></canvas>
-            <div id="snake-message" class="snake-message">Clique em Start para iniciar</div>
-            <div class="snake-mobile-controls">
-                <div class="control-row">
-                    <button class="control-btn up-btn" data-direction="ArrowUp">↑</button>
-                </div>
-                <div class="control-row">
-                    <button class="control-btn left-btn" data-direction="ArrowLeft">←</button>
-                    <button class="control-btn down-btn" data-direction="ArrowDown">↓</button>
-                    <button class="control-btn right-btn" data-direction="ArrowRight">→</button>
-                </div>
-            </div>
-        </div>
-    </div>
+<!-- LOADING -->
+<div id="loading">
+  <div class="loader-avatar">
+    <img src="img/Vini.png" alt="Vinícius" onerror="this.parentElement.innerHTML='<div style=width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:rgba(10,132,255,0.2);font-size:40px;font-weight:700>VS</div>'">
+  </div>
+  <div class="loader-name">Vinícius Silva</div>
+  <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+  <div class="loader-sub" id="loader-sub">macOS Tahoe 26</div>
 </div>
 
+<!-- MENUBAR -->
+<div id="menubar">
+  <div class="mb-apple" onclick="toggleSettings()"><i class="fa-brands fa-apple"></i></div>
+  <div class="mb-group">
+    <div class="mb-item bold" id="mb-appname">Portfolio</div>
+    <div class="mb-item" data-i18n="file">Arquivo</div>
+    <div class="mb-item" data-i18n="edit">Editar</div>
+    <div class="mb-item" data-i18n="view">Visualizar</div>
+    <div class="mb-item" data-i18n="window">Janela</div>
+    <div class="mb-item" data-i18n="help">Ajuda</div>
+  </div>
+  <div class="mb-right">
+    <div class="mb-icon" onclick="openSpotlight()" title="Spotlight"><i class="fa-solid fa-magnifying-glass"></i></div>
+    <div class="mb-icon" title="Wifi"><i class="fa-solid fa-wifi"></i></div>
+    <div class="mb-icon" title="Bluetooth"><i class="fa-brands fa-bluetooth-b"></i></div>
+    <div class="mb-icon" onclick="toggleSettings()" title="Settings"><i class="fa-solid fa-gear"></i></div>
+    <div id="mb-clock" onclick="showDateNotif()">--:--</div>
+  </div>
+</div>
 
+<!-- DESKTOP ICONS -->
+<div id="desktop">
+  <div class="desk-icon" onclick="openWin('win-projects')">
+    <div class="di-icon di-blue"><i class="fa-solid fa-folder-open" style="color:#0A84FF"></i></div>
+    <div class="di-label" data-i18n="projects">Projetos</div>
+  </div>
+  <div class="desk-icon" onclick="openWin('win-about')">
+    <div class="di-icon di-purple"><i class="fa-solid fa-user" style="color:#BF5AF2"></i></div>
+    <div class="di-label" data-i18n="about">Sobre Mim</div>
+  </div>
+  <div class="desk-icon" onclick="openWin('win-tech')">
+    <div class="di-icon di-teal"><i class="fa-solid fa-microchip" style="color:#64D2FF"></i></div>
+    <div class="di-label" data-i18n="technologies">Tecnologias</div>
+  </div>
+  <div class="desk-icon" onclick="openWin('win-resume')">
+    <div class="di-icon di-orange"><i class="fa-solid fa-file-lines" style="color:#FF9F0A"></i></div>
+    <div class="di-label" data-i18n="resume">Currículo</div>
+  </div>
+  <div class="desk-icon" onclick="openWin('win-contact')">
+    <div class="di-icon di-green"><i class="fa-solid fa-envelope" style="color:#30D158"></i></div>
+    <div class="di-label" data-i18n="contact">Contato</div>
+  </div>
+  <div class="desk-icon" onclick="openWin('win-calc')">
+    <div class="di-icon di-yellow"><i class="fa-solid fa-calculator" style="color:#FFD60A"></i></div>
+    <div class="di-label" data-i18n="calculator">Calculadora</div>
+  </div>
+  <div class="desk-icon" onclick="openWin('win-browser')">
+    <div class="di-icon di-blue"><i class="fa-solid fa-compass" style="color:#30AAFF"></i></div>
+    <div class="di-label" data-i18n="browser">Navegador</div>
+  </div>
+  <div class="desk-icon" onclick="openWin('win-terminal')">
+    <div class="di-icon di-gray"><i class="fa-solid fa-terminal" style="color:#98989d"></i></div>
+    <div class="di-label">Terminal</div>
+  </div>
+  <div class="desk-icon" onclick="openWin('win-snake')">
+    <div class="di-icon di-green"><i class="fa-solid fa-gamepad" style="color:#30D158"></i></div>
+    <div class="di-label">Snake</div>
+  </div>
+  <div class="desk-icon" onclick="openWin('win-trash')">
+    <div class="di-icon di-gray"><i class="fa-solid fa-trash" style="color:#98989d"></i></div>
+    <div class="di-label" data-i18n="trash">Lixeira</div>
+  </div>
+</div>
 
-    </main>
+<!-- ===== WINDOWS ===== -->
 
-    <nav id="dock" class="glassmorphism">
-        <ul class="dock-items">
-            <li><button class="dock-item" data-target="projects-window"><i class="fa-solid fa-folder-open"></i></button>
-            </li>
-            <li><button class="dock-item" data-target="contact-window"><i class="fa-solid fa-envelope"></i></button>
-            </li>
-            <li><button class="dock-item" data-target="about-window"><i class="fa-solid fa-user"></i></button></li>
-            <li><button class="dock-item" data-target="notes-window"><i class="fa-solid fa-note-sticky"></i></button>
-            </li>
-            <li><button class="dock-item" data-target="tech-window"><i class="fa-solid fa-microchip"></i></button></li>
-            <li><button class="dock-item" data-target="trash-window"><i class="fa-solid fa-trash"></i></button></li>
-            <li><button class="dock-item" data-target="snake-window"><i class="fa-solid fa-gamepad"></i></button></li>
+<!-- PROJECTS -->
+<div class="window" id="win-projects">
+  <div class="wh">
+    <div class="wh-btns">
+      <div class="wb close" onclick="closeWin('win-projects')"><i class="fa-solid fa-xmark"></i></div>
+      <div class="wb mini" onclick="miniWin('win-projects')"><i class="fa-solid fa-minus"></i></div>
+      <div class="wb maxi"><i class="fa-solid fa-plus"></i></div>
+    </div>
+    <div class="wh-title"><i class="fa-solid fa-folder-open"></i> <span data-i18n="projects">Projetos</span></div>
+  </div>
+  <div class="wc">
+    <div class="proj-grid">
+      <div class="proj-card">
+        <div class="proj-icon"><i class="fa-brands fa-python" style="color:#3776AB"></i></div>
+        <div class="proj-title">AVLIS - PDV</div>
+        <div class="proj-desc">Sistema de ponto de venda construído com Electron e Python Flask com integração de banco de dados PostgreSQL.</div>
+        <a href="https://avlis-pdv.onrender.com/" target="_blank" class="proj-btn"><i class="fa-solid fa-up-right-from-square"></i> <span data-i18n="open">Abrir</span></a>
+      </div>
+      <div class="proj-card">
+        <div class="proj-icon"><i class="fa-solid fa-leaf" style="color:#30D158"></i></div>
+        <div class="proj-title">AvoMedia</div>
+        <div class="proj-desc">Agência criativa digital com foco em estratégia, design e experiências que geram crescimento para marcas.</div>
+        <a href="https://ayaycabron.github.io/AVO/#" target="_blank" class="proj-btn"><i class="fa-solid fa-up-right-from-square"></i> <span data-i18n="open">Abrir</span></a>
+      </div>
+      <div class="proj-card">
+        <div class="proj-icon"><i class="fa-brands fa-shopify" style="color:#96BF48"></i></div>
+        <div class="proj-title">Aurja Collective</div>
+        <div class="proj-desc">E-commerce Shopify customizado com foco em UX, performance e identidade visual para cliente real.</div>
+        <a href="https://aurjacollective.com/" target="_blank" class="proj-btn"><i class="fa-solid fa-up-right-from-square"></i> <span data-i18n="open">Abrir</span></a>
+      </div>
+      <div class="proj-card">
+        <div class="proj-icon"><i class="fa-solid fa-chart-line" style="color:#0A84FF"></i></div>
+        <div class="proj-title">FinanceApp <span style="font-size:9px;background:rgba(48,209,88,0.2);color:#30D158;padding:2px 5px;border-radius:4px">MVP</span></div>
+        <div class="proj-desc">App de finanças com IA, dashboards interativos e análise de dados. Backend Flask + React + PostgreSQL.</div>
+        <a href="https://financeapp-frontend.onrender.com/" target="_blank" class="proj-btn"><i class="fa-solid fa-up-right-from-square"></i> <span data-i18n="open">Abrir</span></a>
+      </div>
+      <div class="proj-card">
+        <div class="proj-icon"><i class="fa-solid fa-wallet" style="color:#FFD60A"></i></div>
+        <div class="proj-title">Controle Financeiro</div>
+        <div class="proj-desc">SPA de finanças pessoais com dashboards e análise de gastos simples e intuitiva.</div>
+        <a href="https://ayaycabron.github.io/ControleFinanceiro/" target="_blank" class="proj-btn"><i class="fa-solid fa-up-right-from-square"></i> <span data-i18n="open">Abrir</span></a>
+      </div>
+      <div class="proj-card">
+        <div class="proj-icon"><i class="fa-brands fa-js" style="color:#FFD60A"></i></div>
+        <div class="proj-title">Lumi</div>
+        <div class="proj-desc">SPA JavaScript para organizar, avaliar e criar rankings de livros, filmes e séries com dados de APIs externas.</div>
+        <a href="https://ayaycabron.github.io/lumi/" target="_blank" class="proj-btn"><i class="fa-solid fa-up-right-from-square"></i> <span data-i18n="open">Abrir</span></a>
+      </div>
+    </div>
+  </div>
+</div>
 
+<!-- ABOUT -->
+<div class="window" id="win-about">
+  <div class="wh">
+    <div class="wh-btns">
+      <div class="wb close" onclick="closeWin('win-about')"><i class="fa-solid fa-xmark"></i></div>
+      <div class="wb mini" onclick="miniWin('win-about')"><i class="fa-solid fa-minus"></i></div>
+      <div class="wb maxi"><i class="fa-solid fa-plus"></i></div>
+    </div>
+    <div class="wh-title"><i class="fa-solid fa-user"></i> <span data-i18n="about">Sobre Mim</span></div>
+  </div>
+  <div class="wc">
+    <div class="about-wrap">
+      <img class="about-avatar" src="img/Vini.png" alt="Vinícius" onerror="this.outerHTML='<div class=about-avatar style=display:flex;align-items:center;justify-content:center;background:rgba(10,132,255,0.2);font-size:36px;font-weight:700>VS</div>'">
+      <div class="about-name">Vinícius Silva</div>
+      <div class="about-role">Full-Stack Developer</div>
+      <div class="about-bio" data-i18n-html="about_bio">
+        Desenvolvedor full-stack apaixonado por criar soluções digitais bonitas, funcionais e intuitivas. Com 7 anos de experiência em TI e desenvolvimento, trabalho com Electron, Python Flask, React e PostgreSQL. Formado em Análise e Desenvolvimento de Sistemas pela PUC-PR, em constante busca por novos desafios para entregar produtos de alta qualidade.
+      </div>
+      <div style="margin-bottom:16px">
+        <div style="font-size:12px;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px;font-weight:600" data-i18n="highlights">Destaques</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div style="background:rgba(10,132,255,0.1);border:0.5px solid rgba(10,132,255,0.3);border-radius:10px;padding:10px;text-align:center">
+            <div style="font-size:22px;font-weight:700;color:var(--accent)">7+</div>
+            <div style="font-size:11px;color:var(--text-secondary)" data-i18n="years_exp">Anos de Exp.</div>
+          </div>
+          <div style="background:rgba(48,209,88,0.1);border:0.5px solid rgba(48,209,88,0.3);border-radius:10px;padding:10px;text-align:center">
+            <div style="font-size:22px;font-weight:700;color:var(--accent2)">6+</div>
+            <div style="font-size:11px;color:var(--text-secondary)" data-i18n="projects_count">Projetos</div>
+          </div>
+          <div style="background:rgba(255,159,10,0.1);border:0.5px solid rgba(255,159,10,0.3);border-radius:10px;padding:10px;text-align:center">
+            <div style="font-size:22px;font-weight:700;color:#FF9F0A">PUC</div>
+            <div style="font-size:11px;color:var(--text-secondary)">Paraná</div>
+          </div>
+          <div style="background:rgba(94,92,230,0.1);border:0.5px solid rgba(94,92,230,0.3);border-radius:10px;padding:10px;text-align:center">
+            <div style="font-size:22px;font-weight:700;color:#5E5CE6">EN</div>
+            <div style="font-size:11px;color:var(--text-secondary)" data-i18n="advanced">Avançado</div>
+          </div>
+        </div>
+      </div>
+      <div class="about-links">
+        <a href="https://github.com/ayaycabron" target="_blank" class="about-link"><i class="fa-brands fa-github"></i> GitHub</a>
+        <a href="https://www.linkedin.com/in/viniciuseduardolima/" target="_blank" class="about-link"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
+        <div class="about-link" style="cursor:pointer" onclick="openWin('win-resume')"><i class="fa-solid fa-file-pdf" style="color:var(--accent3)"></i> <span data-i18n="resume">Currículo</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TECHNOLOGIES -->
+<div class="window" id="win-tech">
+  <div class="wh">
+    <div class="wh-btns">
+      <div class="wb close" onclick="closeWin('win-tech')"><i class="fa-solid fa-xmark"></i></div>
+      <div class="wb mini" onclick="miniWin('win-tech')"><i class="fa-solid fa-minus"></i></div>
+      <div class="wb maxi"><i class="fa-solid fa-plus"></i></div>
+    </div>
+    <div class="wh-title"><i class="fa-solid fa-microchip"></i> <span data-i18n="technologies">Tecnologias</span></div>
+  </div>
+  <div class="wc">
+    <div class="tech-cat">
+      <div class="tech-cat-title" data-i18n="languages">Linguagens</div>
+      <div class="tech-grid2" id="tech-grid-1">
+        <div class="tech-item2"><div class="t-icon"><i class="fa-brands fa-python" style="color:#3776AB"></i></div><div class="t-name">Python</div><div class="tech-bar-bg"><div class="tech-bar-fill" data-w="90"></div></div></div>
+        <div class="tech-item2"><div class="t-icon"><i class="fa-brands fa-js" style="color:#FFD60A"></i></div><div class="t-name">JavaScript</div><div class="tech-bar-bg"><div class="tech-bar-fill" data-w="85"></div></div></div>
+        <div class="tech-item2"><div class="t-icon"><i class="fa-brands fa-html5" style="color:#E34F26"></i></div><div class="t-name">HTML5</div><div class="tech-bar-bg"><div class="tech-bar-fill" data-w="95"></div></div></div>
+        <div class="tech-item2"><div class="t-icon"><i class="fa-brands fa-css3-alt" style="color:#1572B6"></i></div><div class="t-name">CSS3</div><div class="tech-bar-bg"><div class="tech-bar-fill" data-w="90"></div></div></div>
+      </div>
+      <div class="tech-cat-title" data-i18n="frameworks">Frameworks & Libs</div>
+      <div class="tech-grid2">
+        <div class="tech-item2"><div class="t-icon"><i class="fa-brands fa-react" style="color:#61DAFB"></i></div><div class="t-name">React</div><div class="tech-bar-bg"><div class="tech-bar-fill" data-w="80"></div></div></div>
+        <div class="tech-item2"><div class="t-icon"><i class="fa-solid fa-flask" style="color:#000;background:#fff;padding:2px;border-radius:4px"></i></div><div class="t-name">Flask</div><div class="tech-bar-bg"><div class="tech-bar-fill" data-w="85"></div></div></div>
+        <div class="tech-item2"><div class="t-icon"><i class="fa-brands fa-node-js" style="color:#339933"></i></div><div class="t-name">Node.js</div><div class="tech-bar-bg"><div class="tech-bar-fill" data-w="75"></div></div></div>
+        <div class="tech-item2"><div class="t-icon"><i class="fa-brands fa-vuejs" style="color:#4FC08D"></i></div><div class="t-name">Vite</div><div class="tech-bar-bg"><div class="tech-bar-fill" data-w="80"></div></div></div>
+      </div>
+      <div class="tech-cat-title" data-i18n="databases">Bancos de Dados</div>
+      <div class="tech-grid2">
+        <div class="tech-item2"><div class="t-icon"><i class="fa-solid fa-database" style="color:#4479A1"></i></div><div class="t-name">MySQL</div><div class="tech-bar-bg"><div class="tech-bar-fill" data-w="85"></div></div></div>
+        <div class="tech-item2"><div class="t-icon"><i class="fa-solid fa-database" style="color:#336791"></i></div><div class="t-name">PostgreSQL</div><div class="tech-bar-bg"><div class="tech-bar-fill" data-w="80"></div></div></div>
+        <div class="tech-item2"><div class="t-icon"><i class="fa-solid fa-fire" style="color:#FFCA28"></i></div><div class="t-name">Firebase</div><div class="tech-bar-bg"><div class="tech-bar-fill" data-w="75"></div></div></div>
+      </div>
+      <div class="tech-cat-title" data-i18n="tools">Ferramentas</div>
+      <div class="tech-grid2">
+        <div class="tech-item2"><div class="t-icon"><i class="fa-brands fa-git-alt" style="color:#F05032"></i></div><div class="t-name">Git</div><div class="tech-bar-bg"><div class="tech-bar-fill" data-w="90"></div></div></div>
+        <div class="tech-item2"><div class="t-icon"><i class="fa-brands fa-docker" style="color:#2496ED"></i></div><div class="t-name">Docker</div><div class="tech-bar-bg"><div class="tech-bar-fill" data-w="70"></div></div></div>
+        <div class="tech-item2"><div class="t-icon"><i class="fa-solid fa-window-maximize" style="color:#47848F"></i></div><div class="t-name">Electron</div><div class="tech-bar-bg"><div class="tech-bar-fill" data-w="80"></div></div></div>
+        <div class="tech-item2"><div class="t-icon"><i class="fa-brands fa-flutter" style="color:#54C5F8"></i></div><div class="t-name">Flutter</div><div class="tech-bar-bg"><div class="tech-bar-fill" data-w="75"></div></div></div>
+        <div class="tech-item2"><div class="t-icon"><i class="fa-brands fa-microsoft" style="color:#5E5CE6"></i></div><div class="t-name">.NET</div><div class="tech-bar-bg"><div class="tech-bar-fill" data-w="65"></div></div></div>
+        <div class="tech-item2"><div class="t-icon"><i class="fa-solid fa-cloud" style="color:#0A84FF"></i></div><div class="t-name">Render/Railway</div><div class="tech-bar-bg"><div class="tech-bar-fill" data-w="80"></div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RESUME -->
+<div class="window" id="win-resume" style="width:700px">
+  <div class="wh">
+    <div class="wh-btns">
+      <div class="wb close" onclick="closeWin('win-resume')"><i class="fa-solid fa-xmark"></i></div>
+      <div class="wb mini" onclick="miniWin('win-resume')"><i class="fa-solid fa-minus"></i></div>
+      <div class="wb maxi"><i class="fa-solid fa-plus"></i></div>
+    </div>
+    <div class="wh-title"><i class="fa-solid fa-file-lines"></i> <span data-i18n="resume">Currículo</span> — Vinícius Silva</div>
+  </div>
+  <div class="wc">
+    <div class="resume-wrap">
+      <div class="resume-header">
+        <h2>VINÍCIUS SILVA</h2>
+        <p>Curitiba, PR · eduardovinicius1701@gmail.com · +55 41 98480-2813</p>
+        <div style="display:flex;gap:10px;justify-content:center;margin-top:8px;flex-wrap:wrap">
+          <a href="https://github.com/AyayCabron" target="_blank" style="font-size:11px;color:var(--accent);text-decoration:none"><i class="fa-brands fa-github"></i> AyayCabron</a>
+          <a href="https://www.linkedin.com/in/viniciuseduardolima/" target="_blank" style="font-size:11px;color:var(--accent);text-decoration:none"><i class="fa-brands fa-linkedin"></i> viniciuseduardolima</a>
+          <a href="https://financeapp-frontend.onrender.com" target="_blank" style="font-size:11px;color:var(--accent);text-decoration:none"><i class="fa-solid fa-link"></i> FinanceApp</a>
+        </div>
+      </div>
+      <div class="resume-section">
+        <div class="resume-section-title"><i class="fa-solid fa-user-tie"></i> <span data-i18n="professional_summary">Resumo Profissional</span></div>
+        <p style="font-size:13px;color:var(--text-secondary);line-height:1.7">Profissional multifacetado com expertise em gestão de infraestrutura de TI, outsourcing de ativos e análise de dados. Desenvolvimento web com Python (Flask) e Node.js (Vite + React), dashboards BI e bancos de dados MySQL/PostgreSQL. 7 anos de experiência total.</p>
+      </div>
+      <div class="resume-section">
+        <div class="resume-section-title"><i class="fa-solid fa-briefcase"></i> <span data-i18n="experience">Experiência</span></div>
+        <div class="resume-item">
+          <h4>CLOUDFY TECNOLOGIA — Curitiba, PR</h4>
+          <div class="period">abr 2023 – ago 2024</div>
+          <p>Gerenciamento end-to-end de implantação de sistemas. Configuração MySQL/PostgreSQL, ETL, APIs, totens de autoatendimento, suporte e treinamento.</p>
+        </div>
+        <div class="resume-item">
+          <h4>Simpress HP — <span style="font-weight:400;color:var(--text-secondary)">Operador de Site Jr</span></h4>
+          <div class="period">2022 – 2023</div>
+          <p>Gestão de outsourcing, análise de dados de consumo, KPIs, dashboards e suporte técnico Nível 1/2.</p>
+        </div>
+        <div class="resume-item">
+          <h4>Elco Engenharia — <span style="font-weight:400;color:var(--text-secondary)">Auxiliar de TI</span></h4>
+          <div class="period">2020 – 2021</div>
+          <p>Manutenção preventiva/corretiva de hardware, gestão de ativos e suporte técnico.</p>
+        </div>
+        <div class="resume-item">
+          <h4>Sanepar — <span style="font-weight:400;color:var(--text-secondary)">Auxiliar Administrativo</span></h4>
+          <div class="period">2018 – 2019</div>
+          <p>Análise de dados, tabelas dinâmicas, relatórios gerenciais e suporte a RH.</p>
+        </div>
+      </div>
+      <div class="resume-section">
+        <div class="resume-section-title"><i class="fa-solid fa-graduation-cap"></i> <span data-i18n="education">Formação</span></div>
+        <div class="resume-item">
+          <h4>Pontifícia Universidade Católica do Paraná</h4>
+          <p>Graduação — Análise e Desenvolvimento de Sistemas</p>
+        </div>
+      </div>
+      <div class="resume-section">
+        <div class="resume-section-title"><i class="fa-solid fa-star"></i> <span data-i18n="skills">Habilidades</span></div>
+        <div class="skill-chips">
+          <span class="skill-chip">Python (3 anos)</span><span class="skill-chip">PostgreSQL (2 anos)</span>
+          <span class="skill-chip">React (1 ano)</span><span class="skill-chip">Flask (1 ano)</span>
+          <span class="skill-chip">Flutter (1 ano)</span><span class="skill-chip">MySQL</span>
+          <span class="skill-chip">Docker</span><span class="skill-chip">Git/GitHub</span>
+          <span class="skill-chip">Electron</span><span class="skill-chip">Power BI</span>
+          <span class="skill-chip">Microsoft Office</span><span class="skill-chip">Inglês Avançado</span>
+        </div>
+      </div>
+      <div class="resume-section">
+        <div class="resume-section-title"><i class="fa-solid fa-certificate"></i> <span data-i18n="certifications">Certificações</span></div>
+        <ul style="font-size:12px;color:var(--text-secondary);line-height:2;padding-left:16px">
+          <li>Análise de Dados no Power BI (jun/2025)</li>
+          <li>Segurança em TI (jun/2025)</li>
+          <li>Interface Gráfica Python (jun/2025)</li>
+          <li>Agronomia 4.0 — CREA-PR (mar/2025)</li>
+          <li>Internet das Coisas (IoT) (mar/2025)</li>
+          <li>Compliance (mar/2025)</li>
         </ul>
-    </nav>
+      </div>
+    </div>
+  </div>
+</div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Draggable.min.js"></script>
-    <script src="js/script.js"></script>
+<!-- CONTACT -->
+<div class="window" id="win-contact">
+  <div class="wh">
+    <div class="wh-btns">
+      <div class="wb close" onclick="closeWin('win-contact')"><i class="fa-solid fa-xmark"></i></div>
+      <div class="wb mini" onclick="miniWin('win-contact')"><i class="fa-solid fa-minus"></i></div>
+      <div class="wb maxi"><i class="fa-solid fa-plus"></i></div>
+    </div>
+    <div class="wh-title"><i class="fa-solid fa-envelope"></i> <span data-i18n="contact">Contato</span></div>
+  </div>
+  <div class="wc">
+    <div class="contact-wrap">
+      <a href="https://www.linkedin.com/in/viniciuseduardolima/" target="_blank" class="contact-item" style="text-decoration:none">
+        <div class="contact-icon-wrap" style="background:rgba(0,119,181,0.2)"><i class="fa-brands fa-linkedin-in" style="color:#0077B5"></i></div>
+        <div><div class="c-title">LinkedIn</div><div class="c-sub">viniciuseduardolima</div></div>
+        <i class="fa-solid fa-chevron-right arr"></i>
+      </a>
+      <a href="https://github.com/ayaycabron" target="_blank" class="contact-item" style="text-decoration:none">
+        <div class="contact-icon-wrap" style="background:rgba(255,255,255,0.1)"><i class="fa-brands fa-github"></i></div>
+        <div><div class="c-title">GitHub</div><div class="c-sub">@ayaycabron</div></div>
+        <i class="fa-solid fa-chevron-right arr"></i>
+      </a>
+      <div class="contact-item" onclick="openWin('win-resume')">
+        <div class="contact-icon-wrap" style="background:rgba(255,69,58,0.2)"><i class="fa-solid fa-file-pdf" style="color:#FF453A"></i></div>
+        <div><div class="c-title" data-i18n="resume">Currículo</div><div class="c-sub" data-i18n="view_resume">Ver currículo completo</div></div>
+        <i class="fa-solid fa-chevron-right arr"></i>
+      </div>
+      <a href="mailto:eduardovinicius1701@gmail.com" class="contact-item" style="text-decoration:none">
+        <div class="contact-icon-wrap" style="background:rgba(10,132,255,0.2)"><i class="fa-solid fa-envelope" style="color:#0A84FF"></i></div>
+        <div><div class="c-title">E-mail</div><div class="c-sub">eduardovinicius1701@gmail.com</div></div>
+        <i class="fa-solid fa-chevron-right arr"></i>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- CALCULATOR -->
+<div class="window" id="win-calc" style="width:320px">
+  <div class="wh">
+    <div class="wh-btns">
+      <div class="wb close" onclick="closeWin('win-calc')"><i class="fa-solid fa-xmark"></i></div>
+      <div class="wb mini" onclick="miniWin('win-calc')"><i class="fa-solid fa-minus"></i></div>
+      <div class="wb maxi"><i class="fa-solid fa-plus"></i></div>
+    </div>
+    <div class="wh-title"><i class="fa-solid fa-calculator"></i> <span data-i18n="calculator">Calculadora</span></div>
+  </div>
+  <div class="wc">
+    <div class="calc-wrap">
+      <div id="calc-display">
+        <div id="calc-expr"></div>
+        <div id="calc-result">0</div>
+      </div>
+      <div class="calc-grid">
+        <button class="cb func" onclick="calcFn('AC')" id="calc-ac">AC</button>
+        <button class="cb func" onclick="calcFn('+/-')">+/-</button>
+        <button class="cb func" onclick="calcFn('%')">%</button>
+        <button class="cb op" onclick="calcFn('/')">÷</button>
+        <button class="cb num" onclick="calcNum('7')">7</button>
+        <button class="cb num" onclick="calcNum('8')">8</button>
+        <button class="cb num" onclick="calcNum('9')">9</button>
+        <button class="cb op" onclick="calcFn('*')">×</button>
+        <button class="cb num" onclick="calcNum('4')">4</button>
+        <button class="cb num" onclick="calcNum('5')">5</button>
+        <button class="cb num" onclick="calcNum('6')">6</button>
+        <button class="cb op" onclick="calcFn('-')">−</button>
+        <button class="cb num" onclick="calcNum('1')">1</button>
+        <button class="cb num" onclick="calcNum('2')">2</button>
+        <button class="cb num" onclick="calcNum('3')">3</button>
+        <button class="cb op" onclick="calcFn('+')">+</button>
+        <button class="cb num zero" onclick="calcNum('0')">0</button>
+        <button class="cb num" onclick="calcNum('.')">.</button>
+        <button class="cb op" onclick="calcFn('=')">=</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BROWSER -->
+<div class="window" id="win-browser" style="width:760px">
+  <div class="wh">
+    <div class="wh-btns">
+      <div class="wb close" onclick="closeWin('win-browser')"><i class="fa-solid fa-xmark"></i></div>
+      <div class="wb mini" onclick="miniWin('win-browser')"><i class="fa-solid fa-minus"></i></div>
+      <div class="wb maxi"><i class="fa-solid fa-plus"></i></div>
+    </div>
+    <div class="wh-title"><i class="fa-solid fa-compass"></i> <span data-i18n="browser">Navegador</span></div>
+  </div>
+  <div class="wc" style="padding:0">
+    <div class="browser-wrap">
+      <div class="browser-bar">
+        <button class="browser-nav-btn" onclick="browserNav('back')" title="Voltar"><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="browser-nav-btn" onclick="browserNav('fwd')" title="Avançar"><i class="fa-solid fa-chevron-right"></i></button>
+        <button class="browser-nav-btn" onclick="browserNav('reload')" title="Recarregar"><i class="fa-solid fa-rotate-right"></i></button>
+        <input id="browser-url" type="text" value="https://google.com" placeholder="Digite uma URL ou pesquise..." onkeydown="if(event.key==='Enter')browserGo()">
+        <button class="browser-go" onclick="browserGo()" data-i18n="go">Ir</button>
+      </div>
+      <div class="browser-bookmarks">
+        <div class="bm" onclick="browserLoad('https://github.com/ayaycabron')">GitHub</div>
+        <div class="bm" onclick="browserLoad('https://www.linkedin.com/in/viniciuseduardolima/')">LinkedIn</div>
+        <div class="bm" onclick="browserLoad('https://financeapp-frontend.onrender.com/')">FinanceApp</div>
+        <div class="bm" onclick="browserLoad('https://aurjacollective.com/')">Aurja</div>
+        <div class="bm" onclick="browserLoad('https://ayaycabron.github.io/lumi/')">Lumi</div>
+      </div>
+      <iframe id="browser-frame" src="about:blank" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+    </div>
+  </div>
+</div>
+
+<!-- TERMINAL -->
+<div class="window" id="win-terminal" style="width:580px">
+  <div class="wh">
+    <div class="wh-btns">
+      <div class="wb close" onclick="closeWin('win-terminal')"><i class="fa-solid fa-xmark"></i></div>
+      <div class="wb mini" onclick="miniWin('win-terminal')"><i class="fa-solid fa-minus"></i></div>
+      <div class="wb maxi"><i class="fa-solid fa-plus"></i></div>
+    </div>
+    <div class="wh-title" style="font-family:'SF Mono',monospace;font-size:12px"><i class="fa-solid fa-terminal"></i> vini@macbook — Terminal</div>
+  </div>
+  <div class="wc" style="padding:0">
+    <div class="term-wrap" id="term-output">
+      <div class="term-line info">macOS Tahoe 26.5.1 — Portfolio Terminal v2.0</div>
+      <div class="term-line out">Bem-vindo, Vinícius! Digite <span style="color:#FFD60A">help</span> para ver os comandos.</div>
+      <div class="term-line out"> </div>
+    </div>
+    <div class="term-input-row">
+      <span class="term-prompt">vini@macbook ~ %</span>
+      <input type="text" id="term-input" autocomplete="off" spellcheck="false" placeholder="Digite um comando...">
+    </div>
+  </div>
+</div>
+
+<!-- SNAKE -->
+<div class="window" id="win-snake" style="width:460px">
+  <div class="wh">
+    <div class="wh-btns">
+      <div class="wb close" onclick="closeWin('win-snake')"><i class="fa-solid fa-xmark"></i></div>
+      <div class="wb mini" onclick="miniWin('win-snake')"><i class="fa-solid fa-minus"></i></div>
+      <div class="wb maxi"><i class="fa-solid fa-plus"></i></div>
+    </div>
+    <div class="wh-title"><i class="fa-solid fa-gamepad"></i> Snake Game</div>
+  </div>
+  <div class="wc">
+    <div class="snake-wrap">
+      <div class="snake-stats">
+        <div>Score: <span id="snake-score">0</span></div>
+        <div>Level: <span id="snake-level">1</span></div>
+        <div>Best: <span id="snake-best">0</span></div>
+      </div>
+      <canvas id="snake-canvas" width="400" height="400"></canvas>
+      <div id="snake-msg" style="font-size:13px;color:var(--accent);font-weight:600" data-i18n="snake_start">Clique em Start para jogar</div>
+      <div class="snake-ctrl-row">
+        <button class="sk-btn start" onclick="snakeStart()">▶ Start</button>
+        <button class="sk-btn rst" onclick="snakeReset()">↺ Restart</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TRASH -->
+<div class="window" id="win-trash">
+  <div class="wh">
+    <div class="wh-btns">
+      <div class="wb close" onclick="closeWin('win-trash')"><i class="fa-solid fa-xmark"></i></div>
+      <div class="wb mini" onclick="miniWin('win-trash')"><i class="fa-solid fa-minus"></i></div>
+      <div class="wb maxi"><i class="fa-solid fa-plus"></i></div>
+    </div>
+    <div class="wh-title"><i class="fa-solid fa-trash"></i> <span data-i18n="trash">Lixeira</span></div>
+  </div>
+  <div class="wc">
+    <div class="trash-empty">
+      <i class="fa-solid fa-trash-can-arrow-up"></i>
+      <p data-i18n="trash_empty">Lixeira vazia</p>
+      <p style="font-size:11px;margin-top:6px;color:var(--text-tertiary)" data-i18n="trash_sub">Nenhum item para exibir</p>
+    </div>
+  </div>
+</div>
+
+<!-- SPOTLIGHT OVERLAY -->
+<div id="spotlight-overlay" onclick="if(event.target===this)closeSpotlight()">
+  <div id="spotlight-box">
+    <div id="spotlight-input-row">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" id="spotlight-input" autocomplete="off" spellcheck="false" data-i18n-placeholder="spotlight_placeholder">
+      <span id="spotlight-kbd" style="font-size:11px;color:var(--text-tertiary);flex-shrink:0">⌘K</span>
+    </div>
+    <div id="spotlight-results"></div>
+    <div id="spotlight-ai" style="display:none"></div>
+  </div>
+</div>
+
+<!-- SETTINGS OVERLAY -->
+<div id="settings-overlay" onclick="if(event.target===this)toggleSettings()">
+  <div id="settings-box">
+    <div class="settings-header">
+      <div class="wh-btns">
+        <div class="wb close" onclick="toggleSettings()"><i class="fa-solid fa-xmark"></i></div>
+        <div class="wb mini"><i class="fa-solid fa-minus"></i></div>
+        <div class="wb maxi"><i class="fa-solid fa-plus"></i></div>
+      </div>
+      <div class="wh-title" style="font-size:14px"><i class="fa-solid fa-gear"></i> <span data-i18n="settings">Preferências do Sistema</span></div>
+    </div>
+    <div class="settings-tabs">
+      <button class="s-tab active" onclick="settingsTab(this,'s-general')">Geral</button>
+      <button class="s-tab" onclick="settingsTab(this,'s-appearance')">Aparência</button>
+      <button class="s-tab" onclick="settingsTab(this,'s-language')">Idioma</button>
+    </div>
+    <div class="settings-body">
+      <div id="s-general">
+        <div class="s-section">
+          <div class="s-section-title" data-i18n="startup">Inicialização</div>
+          <div class="s-row">
+            <div><div class="s-row-label" data-i18n="show_notif_startup">Mostrar notificação de boas-vindas</div><div class="s-row-sub" data-i18n="show_notif_sub">Exibe ao iniciar o portfolio</div></div>
+            <button class="s-toggle on" id="t-notif" onclick="this.classList.toggle('on');this.classList.toggle('off')"></button>
+          </div>
+          <div class="s-row">
+            <div><div class="s-row-label">Animações</div><div class="s-row-sub">Efeitos de transição nas janelas</div></div>
+            <button class="s-toggle on" id="t-anim" onclick="this.classList.toggle('on');this.classList.toggle('off')"></button>
+          </div>
+        </div>
+        <div class="s-section">
+          <div class="s-section-title">Sobre</div>
+          <div class="s-row"><div class="s-row-label">Sistema</div><div style="font-size:12px;color:var(--text-secondary)">macOS Tahoe 26</div></div>
+          <div class="s-row"><div class="s-row-label">Versão Portfolio</div><div style="font-size:12px;color:var(--text-secondary)">2.0.0</div></div>
+          <div class="s-row"><div class="s-row-label">Desenvolvedor</div><div style="font-size:12px;color:var(--text-secondary)">Vinícius Silva</div></div>
+        </div>
+      </div>
+      <div id="s-appearance" style="display:none">
+        <div class="s-section">
+          <div class="s-section-title">Cor de Destaque</div>
+          <div class="accent-dots" id="accent-picker">
+            <div class="accent-dot sel" style="background:#0A84FF" data-color="#0A84FF" onclick="setAccent(this)"></div>
+            <div class="accent-dot" style="background:#30D158" data-color="#30D158" onclick="setAccent(this)"></div>
+            <div class="accent-dot" style="background:#BF5AF2" data-color="#BF5AF2" onclick="setAccent(this)"></div>
+            <div class="accent-dot" style="background:#FF9F0A" data-color="#FF9F0A" onclick="setAccent(this)"></div>
+            <div class="accent-dot" style="background:#FF453A" data-color="#FF453A" onclick="setAccent(this)"></div>
+            <div class="accent-dot" style="background:#64D2FF" data-color="#64D2FF" onclick="setAccent(this)"></div>
+            <div class="accent-dot" style="background:#FF375F" data-color="#FF375F" onclick="setAccent(this)"></div>
+          </div>
+        </div>
+        <div class="s-section">
+          <div class="s-section-title">Wallpaper</div>
+          <div class="color-preview" id="wall-picker">
+            <div class="wall-thumb sel" style="background:linear-gradient(135deg,#0d1b3e,#1a0a2e,#0a1628)" data-wall="1" onclick="setWall(this)"></div>
+            <div class="wall-thumb" style="background:linear-gradient(135deg,#1a0a0a,#2e1a00,#1a0a28)" data-wall="2" onclick="setWall(this)"></div>
+            <div class="wall-thumb" style="background:linear-gradient(135deg,#0a1a0a,#001a28,#0a280a)" data-wall="3" onclick="setWall(this)"></div>
+            <div class="wall-thumb" style="background:linear-gradient(135deg,#1a001a,#280028,#0a001a)" data-wall="4" onclick="setWall(this)"></div>
+          </div>
+        </div>
+      </div>
+      <div id="s-language" style="display:none">
+        <div class="s-section">
+          <div class="s-section-title">Idioma / Language</div>
+          <div class="s-row">
+            <div><div class="s-row-label">Idioma da Interface</div><div class="s-row-sub" id="lang-sub">Detectado automaticamente</div></div>
+            <select class="s-select" id="lang-select" onchange="changeLang(this.value)">
+              <option value="pt">Português (BR)</option>
+              <option value="en">English</option>
+            </select>
+          </div>
+          <div class="s-row" style="flex-direction:column;align-items:flex-start;gap:8px">
+            <div class="s-row-label">Detecção Automática de Idioma</div>
+            <p style="font-size:12px;color:var(--text-secondary);line-height:1.5">O idioma é detectado automaticamente pelo navegador. Você pode sobrescrever essa preferência acima. A mudança afeta todos os textos da interface.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DOCK -->
+<nav id="dock">
+  <div class="di" onclick="openWin('win-projects')" data-win="win-projects">
+    <div class="di-wrap di-blue"><i class="fa-solid fa-folder-open" style="color:#0A84FF"></i></div>
+    <div class="di-dot" style="display:none"></div>
+    <div class="di-tooltip" data-i18n="projects">Projetos</div>
+  </div>
+  <div class="di" onclick="openWin('win-about')" data-win="win-about">
+    <div class="di-wrap di-purple"><i class="fa-solid fa-user" style="color:#BF5AF2"></i></div>
+    <div class="di-dot" style="display:none"></div>
+    <div class="di-tooltip" data-i18n="about">Sobre Mim</div>
+  </div>
+  <div class="di" onclick="openWin('win-resume')" data-win="win-resume">
+    <div class="di-wrap di-orange"><i class="fa-solid fa-file-lines" style="color:#FF9F0A"></i></div>
+    <div class="di-dot" style="display:none"></div>
+    <div class="di-tooltip" data-i18n="resume">Currículo</div>
+  </div>
+  <div class="di" onclick="openWin('win-contact')" data-win="win-contact">
+    <div class="di-wrap di-green"><i class="fa-solid fa-envelope" style="color:#30D158"></i></div>
+    <div class="di-dot" style="display:none"></div>
+    <div class="di-tooltip" data-i18n="contact">Contato</div>
+  </div>
+  <div class="di" onclick="openWin('win-tech')" data-win="win-tech">
+    <div class="di-wrap di-teal"><i class="fa-solid fa-microchip" style="color:#64D2FF"></i></div>
+    <div class="di-dot" style="display:none"></div>
+    <div class="di-tooltip" data-i18n="technologies">Tecnologias</div>
+  </div>
+  <div class="dock-sep"></div>
+  <div class="di" onclick="openWin('win-calc')" data-win="win-calc">
+    <div class="di-wrap di-yellow"><i class="fa-solid fa-calculator" style="color:#FFD60A"></i></div>
+    <div class="di-dot" style="display:none"></div>
+    <div class="di-tooltip" data-i18n="calculator">Calculadora</div>
+  </div>
+  <div class="di" onclick="openWin('win-browser')" data-win="win-browser">
+    <div class="di-wrap di-blue"><i class="fa-solid fa-compass" style="color:#30AAFF"></i></div>
+    <div class="di-dot" style="display:none"></div>
+    <div class="di-tooltip" data-i18n="browser">Navegador</div>
+  </div>
+  <div class="di" onclick="openWin('win-terminal')" data-win="win-terminal">
+    <div class="di-wrap di-gray"><i class="fa-solid fa-terminal" style="color:#98989d"></i></div>
+    <div class="di-dot" style="display:none"></div>
+    <div class="di-tooltip">Terminal</div>
+  </div>
+  <div class="di" onclick="openWin('win-snake')" data-win="win-snake">
+    <div class="di-wrap di-green"><i class="fa-solid fa-gamepad" style="color:#30D158"></i></div>
+    <div class="di-dot" style="display:none"></div>
+    <div class="di-tooltip">Snake</div>
+  </div>
+  <div class="dock-sep"></div>
+  <div class="di" onclick="openWin('win-trash')" data-win="win-trash">
+    <div class="di-wrap di-gray"><i class="fa-solid fa-trash" style="color:#98989d"></i></div>
+    <div class="di-dot" style="display:none"></div>
+    <div class="di-tooltip" data-i18n="trash">Lixeira</div>
+  </div>
+</nav>
+
+<!-- MISSION CONTROL -->
+<div id="mission-btn" onclick="toggleMission()" title="Mission Control"><i class="fa-solid fa-square-full"></i></div>
+<div id="mission-overlay" onclick="if(event.target===this)toggleMission()"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Draggable.min.js"></script>
+<script>
+// ==================== I18N ====================
+const STRINGS={
+pt:{
+  projects:'Projetos',file:'Arquivo',edit:'Editar',view:'Visualizar',window:'Janela',help:'Ajuda',
+  about:'Sobre Mim',technologies:'Tecnologias',resume:'Currículo',contact:'Contato',
+  calculator:'Calculadora',browser:'Navegador',trash:'Lixeira',settings:'Preferências do Sistema',
+  open:'Abrir',go:'Ir',highlights:'Destaques',years_exp:'Anos de Exp.',projects_count:'Projetos',
+  advanced:'Avançado',languages:'Linguagens',frameworks:'Frameworks & Libs',databases:'Bancos de Dados',
+  tools:'Ferramentas',professional_summary:'Resumo Profissional',experience:'Experiência',
+  education:'Formação',skills:'Habilidades',certifications:'Certificações',
+  startup:'Inicialização',show_notif_startup:'Mostrar notificação de boas-vindas',
+  show_notif_sub:'Exibe ao iniciar o portfolio',
+  view_resume:'Ver currículo completo',trash_empty:'Lixeira vazia',trash_sub:'Nenhum item para exibir',
+  snake_start:'Clique em Start para jogar',
+  spotlight_placeholder:'Spotlight — Pesquise apps, projetos, web...',
+  about_bio:'Desenvolvedor full-stack apaixonado por criar soluções digitais bonitas, funcionais e intuitivas. Com 7 anos de experiência em TI e desenvolvimento, trabalho com Electron, Python Flask, React e PostgreSQL. Formado em Análise e Desenvolvimento de Sistemas pela PUC-PR.',
+  welcome_notif_title:'Bem-vindo ao meu Portfolio!',
+  welcome_notif_msg:'Explore apps no Dock ou pressione ⌘K para o Spotlight'
+},
+en:{
+  projects:'Projects',file:'File',edit:'Edit',view:'View',window:'Window',help:'Help',
+  about:'About Me',technologies:'Technologies',resume:'Resume',contact:'Contact',
+  calculator:'Calculator',browser:'Browser',trash:'Trash',settings:'System Preferences',
+  open:'Open',go:'Go',highlights:'Highlights',years_exp:'Years of Exp.',projects_count:'Projects',
+  advanced:'Advanced',languages:'Languages',frameworks:'Frameworks & Libs',databases:'Databases',
+  tools:'Tools',professional_summary:'Professional Summary',experience:'Experience',
+  education:'Education',skills:'Skills',certifications:'Certifications',
+  startup:'Startup',show_notif_startup:'Show welcome notification',
+  show_notif_sub:'Displayed on portfolio launch',
+  view_resume:'View full resume',trash_empty:'Trash is empty',trash_sub:'No items to display',
+  snake_start:'Click Start to play',
+  spotlight_placeholder:'Spotlight — Search apps, projects, web...',
+  about_bio:'Passionate full-stack developer creating beautiful, functional and intuitive digital solutions. With 7 years of IT & development experience, I work with Electron, Python Flask, React and PostgreSQL. Graduated in Systems Analysis & Development from PUC-PR.',
+  welcome_notif_title:'Welcome to my Portfolio!',
+  welcome_notif_msg:'Explore apps in the Dock or press ⌘K for Spotlight'
+}};
+
+let currentLang='pt';
+
+function detectLang(){
+  const bl=navigator.language||navigator.userLanguage||'pt';
+  return bl.startsWith('pt')?'pt':'en';
+}
+
+function applyLang(lang){
+  currentLang=lang;
+  document.documentElement.lang=lang==='pt'?'pt-BR':'en';
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const k=el.getAttribute('data-i18n');
+    if(STRINGS[lang][k])el.textContent=STRINGS[lang][k];
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{
+    const k=el.getAttribute('data-i18n-placeholder');
+    if(STRINGS[lang][k])el.placeholder=STRINGS[lang][k];
+  });
+  document.querySelectorAll('[data-i18n-html]').forEach(el=>{
+    const k=el.getAttribute('data-i18n-html');
+    if(STRINGS[lang][k])el.textContent=STRINGS[lang][k];
+  });
+  const sel=document.getElementById('lang-select');
+  if(sel)sel.value=lang;
+  const sub=document.getElementById('lang-sub');
+  if(sub)sub.textContent=lang==='pt'?'Português (BR) — detectado':'English — detected';
+}
+
+function changeLang(lang){applyLang(lang)}
+
+// ==================== CLOCK ====================
+function updateClock(){
+  const el=document.getElementById('mb-clock');
+  if(!el)return;
+  const now=new Date();
+  const opts={weekday:'short',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'};
+  el.textContent=now.toLocaleString(currentLang==='pt'?'pt-BR':'en-US',opts);
+}
+setInterval(updateClock,1000);
+updateClock();
+
+function showDateNotif(){
+  const now=new Date();
+  const s=now.toLocaleString(currentLang==='pt'?'pt-BR':'en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  showNotif(s,'',0,'fa-solid fa-clock','rgba(94,92,230,0.2)','#5E5CE6');
+}
+
+// ==================== Z-INDEX ====================
+let zTop=100;
+function bringFront(el){el.style.zIndex=++zTop}
+
+// ==================== WINDOWS ====================
+function openWin(id){
+  const win=document.getElementById(id);
+  if(!win)return;
+  bringFront(win);
+  win.style.display='block';
+  win.classList.add('visible');
+  updateDockDot(id,true);
+  gsap.fromTo(win,{scale:0.88,opacity:0},{scale:1,opacity:1,duration:0.38,ease:'back.out(1.4)'});
+  if(id==='win-tech')setTimeout(animTechBars,200);
+  if(id==='win-browser'&&document.getElementById('browser-frame').src==='about:blank')browserLoad('https://github.com/ayaycabron');
+}
+
+function closeWin(id){
+  const win=document.getElementById(id);
+  if(!win)return;
+  gsap.to(win,{scale:0.88,opacity:0,duration:0.22,ease:'power2.in',onComplete:()=>{win.style.display='none';win.classList.remove('visible')}});
+  updateDockDot(id,false);
+}
+
+function miniWin(id){
+  const win=document.getElementById(id);
+  if(!win)return;
+  gsap.to(win,{y:600,opacity:0,duration:0.4,ease:'power3.in',onComplete:()=>{win.style.display='none';win.classList.remove('visible');gsap.set(win,{y:0})}});
+}
+
+function updateDockDot(winId,open){
+  const di=document.querySelector(`.di[data-win="${winId}"] .di-dot`);
+  if(di)di.style.display=open?'block':'none';
+}
+
+// Draggable windows
+document.addEventListener('DOMContentLoaded',()=>{
+  if(typeof gsap!=='undefined'&&typeof Draggable!=='undefined'){
+    gsap.registerPlugin(Draggable);
+    document.querySelectorAll('.window').forEach(win=>{
+      const header=win.querySelector('.wh');
+      if(header){
+        Draggable.create(win,{trigger:header,bounds:'body',edgeResistance:0.7,type:'x,y'});
+        header.addEventListener('mousedown',()=>bringFront(win));
+      }
+    });
+  }
+});
+
+// ==================== TECH BARS ====================
+function animTechBars(){
+  document.querySelectorAll('.tech-bar-fill').forEach(bar=>{
+    const w=bar.getAttribute('data-w')+'%';
+    bar.style.width='0%';
+    setTimeout(()=>{bar.style.width=w},50);
+  });
+}
+
+// ==================== SPOTLIGHT ====================
+const SPOTLIGHT_DATA=[
+  {title:'Projetos',title_en:'Projects',icon:'fa-solid fa-folder-open',color:'#0A84FF',cat:'Apps',cat_en:'Apps',action:()=>openWin('win-projects')},
+  {title:'Sobre Mim',title_en:'About Me',icon:'fa-solid fa-user',color:'#BF5AF2',cat:'Apps',cat_en:'Apps',action:()=>openWin('win-about')},
+  {title:'Tecnologias',title_en:'Technologies',icon:'fa-solid fa-microchip',color:'#64D2FF',cat:'Apps',cat_en:'Apps',action:()=>openWin('win-tech')},
+  {title:'Currículo',title_en:'Resume',icon:'fa-solid fa-file-lines',color:'#FF9F0A',cat:'Documentos',cat_en:'Documents',action:()=>openWin('win-resume')},
+  {title:'Contato',title_en:'Contact',icon:'fa-solid fa-envelope',color:'#30D158',cat:'Apps',cat_en:'Apps',action:()=>openWin('win-contact')},
+  {title:'Calculadora',title_en:'Calculator',icon:'fa-solid fa-calculator',color:'#FFD60A',cat:'Utilitários',cat_en:'Utilities',action:()=>openWin('win-calc')},
+  {title:'Navegador',title_en:'Browser',icon:'fa-solid fa-compass',color:'#30AAFF',cat:'Utilitários',cat_en:'Utilities',action:()=>openWin('win-browser')},
+  {title:'Terminal',title_en:'Terminal',icon:'fa-solid fa-terminal',color:'#98989d',cat:'Utilitários',cat_en:'Utilities',action:()=>openWin('win-terminal')},
+  {title:'Snake Game',title_en:'Snake Game',icon:'fa-solid fa-gamepad',color:'#30D158',cat:'Jogos',cat_en:'Games',action:()=>openWin('win-snake')},
+  {title:'AVLIS PDV',title_en:'AVLIS PDV',icon:'fa-brands fa-python',color:'#3776AB',cat:'Projetos',cat_en:'Projects',action:()=>window.open('https://avlis-pdv.onrender.com/','_blank')},
+  {title:'FinanceApp',title_en:'FinanceApp',icon:'fa-solid fa-chart-line',color:'#0A84FF',cat:'Projetos',cat_en:'Projects',action:()=>window.open('https://financeapp-frontend.onrender.com/','_blank')},
+  {title:'GitHub',title_en:'GitHub',icon:'fa-brands fa-github',color:'#fff',cat:'Links',cat_en:'Links',action:()=>window.open('https://github.com/ayaycabron','_blank')},
+  {title:'LinkedIn',title_en:'LinkedIn',icon:'fa-brands fa-linkedin',color:'#0077B5',cat:'Links',cat_en:'Links',action:()=>window.open('https://www.linkedin.com/in/viniciuseduardolima/','_blank')},
+];
+
+let spotlightOpen=false;
+let aiTimer=null;
+
+function openSpotlight(){
+  spotlightOpen=true;
+  document.getElementById('spotlight-overlay').classList.add('open');
+  setTimeout(()=>document.getElementById('spotlight-input').focus(),80);
+  renderSpotlight('');
+}
+function closeSpotlight(){
+  spotlightOpen=false;
+  document.getElementById('spotlight-overlay').classList.remove('open');
+  document.getElementById('spotlight-input').value='';
+  document.getElementById('spotlight-results').innerHTML='';
+  document.getElementById('spotlight-ai').style.display='none';
+}
+
+document.addEventListener('keydown',e=>{
+  if((e.metaKey||e.ctrlKey)&&e.key==='k'){e.preventDefault();spotlightOpen?closeSpotlight():openSpotlight()}
+  if(e.key==='Escape'&&spotlightOpen)closeSpotlight();
+});
+
+document.getElementById('spotlight-input').addEventListener('input',e=>{
+  const q=e.target.value.trim();
+  renderSpotlight(q);
+  clearTimeout(aiTimer);
+  if(q.length>4){
+    aiTimer=setTimeout(()=>fetchAI(q),800);
+  } else {
+    document.getElementById('spotlight-ai').style.display='none';
+  }
+});
+
+function renderSpotlight(q){
+  const el=document.getElementById('spotlight-results');
+  const isEn=currentLang==='en';
+  if(!q){
+    el.innerHTML=`<div class="sr-section">${isEn?'Recent':'Recentes'}</div>`+
+      SPOTLIGHT_DATA.slice(0,5).map(item=>srItem(item)).join('');
+    return;
+  }
+  const ql=q.toLowerCase();
+  const matches=SPOTLIGHT_DATA.filter(item=>{
+    const title=isEn?item.title_en:item.title;
+    return title.toLowerCase().includes(ql)||(item.cat||'').toLowerCase().includes(ql);
+  });
+  
+  if(!matches.length){
+    el.innerHTML=`<div class="sr-item" style="cursor:pointer" onclick="spotlightSearch('${q.replace(/'/g,"\\'")}')">
+      <div class="sr-icon" style="background:rgba(10,132,255,0.15)"><i class="fa-solid fa-magnifying-glass" style="color:#0A84FF"></i></div>
+      <div class="sr-text"><div class="sr-title">${isEn?'Search for':'Pesquisar por'} "${q}"</div><div class="sr-sub">${isEn?'Open browser with search':'Abrir navegador com pesquisa'}</div></div>
+    </div>`;
+    return;
+  }
+  
+  const groups={};
+  matches.forEach(item=>{
+    const cat=isEn?item.cat_en:item.cat;
+    if(!groups[cat])groups[cat]=[];
+    groups[cat].push(item);
+  });
+  
+  el.innerHTML=Object.entries(groups).map(([cat,items])=>
+    `<div class="sr-section">${cat}</div>`+items.map(item=>srItem(item)).join('')
+  ).join('');
+  
+  if(q.length>2){
+    el.innerHTML+=`<div class="sr-item" style="cursor:pointer" onclick="spotlightSearch('${q.replace(/'/g,"\\'")}')">
+      <div class="sr-icon" style="background:rgba(10,132,255,0.15)"><i class="fa-solid fa-globe" style="color:#0A84FF"></i></div>
+      <div class="sr-text"><div class="sr-title">${isEn?'Search web for':'Pesquisar na web'} "${q}"</div></div>
+      <div class="sr-tag">Web</div>
+    </div>`;
+  }
+}
+
+function srItem(item){
+  const isEn=currentLang==='en';
+  const title=isEn?item.title_en:item.title;
+  const fnStr=`spotlightExec(${SPOTLIGHT_DATA.indexOf(item)})`;
+  return `<div class="sr-item" onclick="${fnStr}">
+    <div class="sr-icon" style="background:${item.color}22"><i class="${item.icon}" style="color:${item.color}"></i></div>
+    <div class="sr-text"><div class="sr-title">${title}</div></div>
+  </div>`;
+}
+
+function spotlightExec(i){SPOTLIGHT_DATA[i].action();closeSpotlight()}
+
+function spotlightSearch(q){
+  openWin('win-browser');
+  browserLoad('https://www.google.com/search?q='+encodeURIComponent(q));
+  closeSpotlight();
+}
+
+async function fetchAI(q){
+  const aiEl=document.getElementById('spotlight-ai');
+  aiEl.style.display='block';
+  aiEl.className='loading';
+  aiEl.textContent=currentLang==='pt'?'Pensando...':'Thinking...';
+  try{
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-6',max_tokens:1000,
+        messages:[{role:'user',content:`Você é o assistente inteligente do portfolio de Vinícius Silva, desenvolvedor full-stack de Curitiba-PR. Responda de forma muito breve (2-3 linhas máximo) sobre: "${q}". Se for uma pergunta sobre o portfolio/desenvolvedor, responda. Se for uma pergunta geral, responda brevemente. Idioma: ${currentLang==='pt'?'Português':'English'}.`}]
+      })
+    });
+    const data=await resp.json();
+    const text=data.content?.[0]?.text||'';
+    aiEl.className='';
+    aiEl.innerHTML=`<div style="display:flex;gap:8px;align-items:flex-start"><i class="fa-solid fa-sparkles" style="color:#BF5AF2;font-size:14px;margin-top:2px;flex-shrink:0"></i><div><div style="font-size:11px;font-weight:600;color:var(--text-tertiary);margin-bottom:4px">INTELIGÊNCIA</div><div style="color:var(--text-primary)">${text}</div></div></div>`;
+  }catch(e){
+    aiEl.className='';
+    aiEl.textContent='';
+  }
+}
+
+// ==================== NOTIFICATIONS ====================
+let notifTop=40;
+const notifGap=88;
+
+function showNotif(title,msg,delay=0,icon='fa-solid fa-info-circle',iconBg='rgba(10,132,255,0.2)',iconColor='#0A84FF'){
+  setTimeout(()=>{
+    const n=document.createElement('div');
+    n.className='notif';
+    n.style.top=(notifTop)+'px';
+    n.innerHTML=`
+      <div class="notif-icon" style="background:${iconBg}"><i class="${icon}" style="color:${iconColor}"></i></div>
+      <div class="notif-body"><div class="notif-title">${title}</div><div class="notif-msg">${msg}</div></div>
+      <div class="notif-close" onclick="dismissNotif(this.parentElement)"><i class="fa-solid fa-xmark"></i></div>`;
+    document.body.appendChild(n);
+    setTimeout(()=>dismissNotif(n),5000);
+  },delay);
+}
+
+function dismissNotif(n){
+  n.classList.add('out');
+  setTimeout(()=>n.remove(),400);
+}
+
+// ==================== SETTINGS ====================
+function toggleSettings(){
+  const o=document.getElementById('settings-overlay');
+  o.classList.toggle('open');
+}
+
+function settingsTab(btn,tabId){
+  document.querySelectorAll('.s-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  ['s-general','s-appearance','s-language'].forEach(id=>{
+    document.getElementById(id).style.display=id===tabId?'block':'none';
+  });
+}
+
+function setAccent(el){
+  document.querySelectorAll('.accent-dot').forEach(d=>d.classList.remove('sel'));
+  el.classList.add('sel');
+  document.documentElement.style.setProperty('--accent',el.dataset.color);
+}
+
+const WALLS=[
+  'linear-gradient(135deg,#0d1b3e 0%,#1a0a2e 25%,#0a1628 50%,#001a3a 75%,#0d1b3e 100%)',
+  'linear-gradient(135deg,#2e0a0a 0%,#3e1a00 30%,#1a0a28 70%,#2e0a0a 100%)',
+  'linear-gradient(135deg,#0a1a0a 0%,#001428 40%,#0a1e0a 100%)',
+  'linear-gradient(135deg,#1a001a 0%,#280028 50%,#0a001a 100%)',
+];
+
+function setWall(el){
+  document.querySelectorAll('.wall-thumb').forEach(w=>w.classList.remove('sel'));
+  el.classList.add('sel');
+  const wallEl=document.getElementById('wallpaper');
+  wallEl.style.background=WALLS[parseInt(el.dataset.wall)-1];
+}
+
+// ==================== CALCULATOR ====================
+let calcExpr='';
+let calcPrev='';
+let calcOp='';
+let calcNewNum=true;
+let calcResult='0';
+let calcActive=false;
+
+function calcDisp(){
+  document.getElementById('calc-result').textContent=calcResult;
+  document.getElementById('calc-expr').textContent=calcExpr;
+  document.getElementById('calc-ac').textContent=calcResult==='0'&&!calcExpr?'AC':'C';
+}
+
+function calcNum(n){
+  if(calcNewNum){calcResult='';calcNewNum=false}
+  if(n==='.'&&calcResult.includes('.'))return;
+  if(calcResult==='0'&&n!=='.')calcResult='';
+  calcResult+=n;
+  calcDisp();
+}
+
+function calcFn(fn){
+  const v=parseFloat(calcResult)||0;
+  document.querySelectorAll('.cb.op').forEach(b=>b.classList.remove('active-op'));
+  if(fn==='AC'||fn==='C'){calcExpr='';calcResult='0';calcOp='';calcPrev='';calcNewNum=true;calcDisp();return}
+  if(fn==='+/-'){calcResult=String(-parseFloat(calcResult));calcDisp();return}
+  if(fn==='%'){calcResult=String(v/100);calcDisp();return}
+  if(fn==='='){
+    if(calcOp&&calcPrev!==''){
+      try{const r=eval(`${calcPrev}${calcOp}${v}`);calcExpr=`${calcPrev} ${fmtOp(calcOp)} ${v} =`;calcResult=String(+r.toFixed(10));calcOp='';calcPrev='';calcNewNum=true;}catch(e){calcResult='Erro'}
+    }
+    calcDisp();return;
+  }
+  if(calcOp&&!calcNewNum&&calcPrev!==''){
+    try{calcResult=String(+eval(`${calcPrev}${calcOp}${v}`).toFixed(10));calcDisp();}catch(e){}
+  }
+  calcOp=fn;calcPrev=calcResult;calcNewNum=true;
+  calcExpr=calcResult+' '+fmtOp(fn);
+  const opBtns=document.querySelectorAll('.cb.op');
+  const fns={'+':{i:3},'−':{i:2},'*':{i:1},'/':{i:0}};
+  calcDisp();
+}
+function fmtOp(op){return op==='*'?'×':op==='/'?'÷':op}
+
+document.addEventListener('keydown',e=>{
+  if(document.getElementById('win-calc').style.display==='block'){
+    if(e.key>='0'&&e.key<='9')calcNum(e.key);
+    else if(e.key==='.')calcNum('.');
+    else if(['+','-','*','/'].includes(e.key))calcFn(e.key);
+    else if(e.key==='Enter'||e.key==='=')calcFn('=');
+    else if(e.key==='Escape')calcFn('AC');
+    else if(e.key==='Backspace'){if(calcResult.length>1)calcResult=calcResult.slice(0,-1);else calcResult='0';calcDisp()}
+  }
+});
+
+// ==================== BROWSER ====================
+function browserGo(){
+  let url=document.getElementById('browser-url').value.trim();
+  if(!url.startsWith('http')&&!url.startsWith('//')){
+    if(url.includes('.')&&!url.includes(' '))url='https://'+url;
+    else url='https://www.google.com/search?q='+encodeURIComponent(url);
+  }
+  browserLoad(url);
+}
+
+function browserLoad(url){
+  document.getElementById('browser-url').value=url;
+  const frame=document.getElementById('browser-frame');
+  try{frame.src=url}catch(e){console.log('Browser load error',e)}
+}
+
+function browserNav(dir){
+  const frame=document.getElementById('browser-frame');
+  if(dir==='back')try{frame.contentWindow.history.back()}catch(e){}
+  if(dir==='fwd')try{frame.contentWindow.history.forward()}catch(e){}
+  if(dir==='reload')frame.src=frame.src;
+}
+
+// ==================== TERMINAL ====================
+const TERM_CMDS={
+  help:()=>[
+    {t:'info',txt:'Comandos disponíveis / Available commands:'},
+    {t:'out',txt:'  about      — Sobre o desenvolvedor / About the developer'},
+    {t:'out',txt:'  projects   — Lista de projetos / Projects list'},
+    {t:'out',txt:'  skills     — Habilidades técnicas / Technical skills'},
+    {t:'out',txt:'  contact    — Informações de contato / Contact info'},
+    {t:'out',txt:'  open [app] — Abre um app / Open an app'},
+    {t:'out',txt:'  clear      — Limpa o terminal / Clear terminal'},
+    {t:'out',txt:'  date       — Data e hora atual / Current date and time'},
+    {t:'out',txt:'  echo [txt] — Repete texto / Echo text'},
+    {t:'out',txt:'  konami     — 🎮 Easter egg'},
+  ],
+  about:()=>[
+    {t:'info',txt:'═══════════════════════════════════════'},
+    {t:'out',txt:'  Vinícius Silva — Full-Stack Developer'},
+    {t:'out',txt:'  📍 Curitiba, PR, Brasil'},
+    {t:'out',txt:'  🎓 ADS — PUC-PR'},
+    {t:'out',txt:'  💼 7+ anos de experiência'},
+    {t:'out',txt:'  🌐 Inglês Avançado'},
+    {t:'info',txt:'═══════════════════════════════════════'},
+  ],
+  projects:()=>[
+    {t:'out',txt:'📁 AVLIS-PDV     → https://avlis-pdv.onrender.com/'},
+    {t:'out',txt:'📁 AvoMedia      → https://ayaycabron.github.io/AVO/'},
+    {t:'out',txt:'🛍  Aurja Collective → https://aurjacollective.com/'},
+    {t:'out',txt:'💰 FinanceApp    → https://financeapp-frontend.onrender.com/'},
+    {t:'out',txt:'📊 Controle Fin. → https://ayaycabron.github.io/ControleFinanceiro/'},
+    {t:'out',txt:'⭐ Lumi          → https://ayaycabron.github.io/lumi/'},
+  ],
+  skills:()=>[
+    {t:'info',txt:'Languages: Python(90%) JS(85%) HTML5(95%) CSS3(90%)'},
+    {t:'info',txt:'Frameworks: React(80%) Flask(85%) Node.js(75%)'},
+    {t:'info',txt:'Databases: MySQL(85%) PostgreSQL(80%) Firebase(75%)'},
+    {t:'info',txt:'Tools: Git(90%) Docker(70%) Electron(80%) Flutter(75%)'},
+  ],
+  contact:()=>[
+    {t:'out',txt:'📧 eduardovinicius1701@gmail.com'},
+    {t:'out',txt:'📱 +55 41 98480-2813'},
+    {t:'out',txt:'💼 linkedin.com/in/viniciuseduardolima/'},
+    {t:'out',txt:'🐙 github.com/ayaycabron'},
+  ],
+  clear:()=>'CLEAR',
+  date:()=>[{t:'out',txt:new Date().toLocaleString('pt-BR',{weekday:'long',year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit',second:'2-digit'})}],
+  konami:()=>{
+    document.body.style.animation='konamiColors 2s infinite';
+    setTimeout(()=>document.body.style.animation='',8000);
+    return [{t:'info',txt:'🎮 KONAMI CODE ACTIVATED! Rainbow mode for 8s!'}];
+  },
+};
+
+const style=document.createElement('style');
+style.textContent=`@keyframes konamiColors{0%{filter:hue-rotate(0deg)}100%{filter:hue-rotate(360deg)}}`;
+document.head.appendChild(style);
+
+document.getElementById('term-input').addEventListener('keydown',e=>{
+  if(e.key!=='Enter')return;
+  const input=e.target.value.trim();
+  if(!input)return;
+  e.target.value='';
+  const out=document.getElementById('term-output');
+  out.innerHTML+=`<div class="term-line cmd">${input}</div>`;
+  const [cmd,...args]=input.split(' ');
+  const fn=TERM_CMDS[cmd.toLowerCase()];
+  if(fn){
+    const result=fn(args);
+    if(result==='CLEAR'){out.innerHTML='';return;}
+    if(Array.isArray(result)){result.forEach(r=>out.innerHTML+=`<div class="term-line ${r.t}">${r.txt}</div>`);}
+  } else if(cmd.toLowerCase()==='open'){
+    const app=args.join(' ').toLowerCase();
+    const map={projects:'win-projects',about:'win-about',tech:'win-tech',resume:'win-resume',contact:'win-contact',calc:'win-calc',calculator:'win-calc',browser:'win-browser',terminal:'win-terminal',snake:'win-snake'};
+    const winId=map[app];
+    if(winId){openWin(winId);out.innerHTML+=`<div class="term-line info">Opening ${args.join(' ')}...</div>`;}
+    else out.innerHTML+=`<div class="term-line err">app not found: ${app}</div>`;
+  } else if(cmd.toLowerCase()==='echo'){
+    out.innerHTML+=`<div class="term-line out">${args.join(' ')}</div>`;
+  } else {
+    out.innerHTML+=`<div class="term-line err">command not found: ${cmd}</div>`;
+    out.innerHTML+=`<div class="term-line out">Type 'help' for available commands.</div>`;
+  }
+  out.scrollTop=out.scrollHeight;
+});
+
+// ==================== SNAKE ====================
+let snk={
+  canvas:null,ctx:null,grid:20,cells:20,
+  snake:[],dir:'right',nextDir:'right',food:{},
+  score:0,level:1,best:0,speed:150,interval:null,running:false,justAte:false
+};
+
+function snakeStart(){
+  if(snk.running)return;
+  const msg=document.getElementById('snake-msg');
+  if(msg)msg.textContent='';
+  snk.running=true;
+  snk.interval=setInterval(snkLoop,snk.speed);
+}
+
+function snakeReset(){
+  clearInterval(snk.interval);
+  snk.snake=[{x:5,y:5},{x:4,y:5},{x:3,y:5}];
+  snk.dir='right';snk.nextDir='right';
+  snk.score=0;snk.level=1;snk.speed=150;snk.running=false;snk.justAte=false;
+  document.getElementById('snake-score').textContent='0';
+  document.getElementById('snake-level').textContent='1';
+  const msg=document.getElementById('snake-msg');
+  if(msg)msg.textContent=STRINGS[currentLang].snake_start;
+  snkFood();snkDraw();
+}
+
+function snkLoop(){
+  snk.dir=snk.nextDir;
+  const h={...snk.snake[0]};
+  if(snk.dir==='up')h.y--;
+  if(snk.dir==='down')h.y++;
+  if(snk.dir==='left')h.x--;
+  if(snk.dir==='right')h.x++;
+  if(h.x<0)h.x=snk.cells-1;
+  if(h.x>=snk.cells)h.x=0;
+  if(h.y<0)h.y=snk.cells-1;
+  if(h.y>=snk.cells)h.y=0;
+  for(let i=1;i<snk.snake.length;i++){if(h.x===snk.snake[i].x&&h.y===snk.snake[i].y){snkOver();return}}
+  snk.snake.unshift(h);
+  if(h.x===snk.food.x&&h.y===snk.food.y){
+    snk.score+=10*snk.level;
+    document.getElementById('snake-score').textContent=snk.score;
+    snk.justAte=true;snkFood();
+    if(snk.score%100===0){snk.level++;document.getElementById('snake-level').textContent=snk.level;clearInterval(snk.interval);snk.speed=Math.max(60,150-(snk.level-1)*10);snk.interval=setInterval(snkLoop,snk.speed)}
+  } else {snk.snake.pop();snk.justAte=false}
+  snkDraw();
+}
+
+function snkFood(){
+  let f,onSnake;
+  do{onSnake=false;f={x:Math.floor(Math.random()*snk.cells),y:Math.floor(Math.random()*snk.cells)};for(const s of snk.snake)if(s.x===f.x&&s.y===f.y){onSnake=true;break}}while(onSnake);
+  snk.food=f;
+}
+
+function snkDraw(){
+  const c=snk.canvas;const ctx=snk.ctx;
+  if(!c||!ctx)return;
+  const g=snk.grid;
+  ctx.clearRect(0,0,c.width,c.height);
+  ctx.fillStyle='rgba(255,255,255,0.04)';
+  for(let x=0;x<snk.cells;x++)for(let y=0;y<snk.cells;y++)if((x+y)%2===0)ctx.fillRect(x*g,y*g,g,g);
+  ctx.fillStyle='#30D158';
+  ctx.beginPath();ctx.roundRect(snk.food.x*g+1,snk.food.y*g+1,g-2,g-2,4);ctx.fill();
+  snk.snake.forEach((s,i)=>{
+    ctx.fillStyle=i===0?'#0A84FF':`rgba(10,132,${Math.max(100,255-i*5)},${1-i*0.015})`;
+    ctx.beginPath();ctx.roundRect(s.x*g+1,s.y*g+1,g-2,g-2,i===0?6:4);ctx.fill();
+  });
+}
+
+function snkOver(){
+  clearInterval(snk.interval);snk.running=false;
+  if(snk.score>snk.best){snk.best=snk.score;document.getElementById('snake-best').textContent=snk.best}
+  const msg=document.getElementById('snake-msg');
+  if(msg)msg.textContent=`Game Over! Score: ${snk.score}`;
+  const ctx=snk.ctx;const c=snk.canvas;
+  if(ctx&&c){
+    ctx.fillStyle='rgba(0,0,0,0.6)';ctx.fillRect(0,0,c.width,c.height);
+    ctx.fillStyle='#fff';ctx.font='bold 20px -apple-system,BlinkMacSystemFont,sans-serif';ctx.textAlign='center';
+    ctx.fillText('GAME OVER',c.width/2,c.height/2-20);
+    ctx.font='16px -apple-system,BlinkMacSystemFont,sans-serif';
+    ctx.fillStyle='rgba(255,255,255,0.7)';
+    ctx.fillText(`Score: ${snk.score}`,c.width/2,c.height/2+10);
+  }
+}
+
+document.addEventListener('keydown',e=>{
+  if(!snk.running)return;
+  const map={ArrowUp:'up',ArrowDown:'down',ArrowLeft:'left',ArrowRight:'right'};
+  const opp={up:'down',down:'up',left:'right',right:'left'};
+  const d=map[e.key];
+  if(d&&opp[d]!==snk.dir){e.preventDefault();snk.nextDir=d}
+});
+
+// ==================== MISSION CONTROL ====================
+let missionOpen=false;
+function toggleMission(){
+  missionOpen=!missionOpen;
+  const overlay=document.getElementById('mission-overlay');
+  if(missionOpen){
+    overlay.classList.add('open');
+    overlay.innerHTML='';
+    const wins=document.querySelectorAll('.window');
+    let any=false;
+    wins.forEach(win=>{
+      if(win.style.display==='block'){
+        any=true;
+        const wrap=document.createElement('div');
+        wrap.style.cssText='position:relative;display:inline-flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;';
+        const thumb=document.createElement('div');
+        thumb.className='mc-thumb';
+        const title=win.querySelector('.wh-title span');
+        const icon=win.querySelector('.wh-title i');
+        thumb.innerHTML=`<div style="text-align:center;padding:16px">${icon?icon.outerHTML:''}${title?'<div style=font-size:13px;margin-top:8px;color:var(--text-secondary)>'+title.textContent+'</div>':''}</div>`;
+        const winBg=getComputedStyle(win).backdropFilter;
+        thumb.style.background='rgba(28,28,35,0.8)';
+        thumb.addEventListener('click',()=>{bringFront(win);toggleMission()});
+        const lbl=document.createElement('div');
+        lbl.style.cssText='font-size:11px;color:var(--text-secondary);font-weight:500';
+        lbl.textContent=title?title.textContent:'Window';
+        wrap.appendChild(thumb);wrap.appendChild(lbl);
+        overlay.appendChild(wrap);
+      }
+    });
+    if(!any){
+      overlay.innerHTML='<div style="color:var(--text-tertiary);font-size:14px">Nenhuma janela aberta</div>';
+    }
+  } else {
+    overlay.classList.remove('open');
+  }
+}
+
+// ==================== LOADING ====================
+function init(){
+  currentLang=detectLang();
+  applyLang(currentLang);
+  
+  const loading=document.getElementById('loading');
+  const sub=document.getElementById('loader-sub');
+  const msgs=currentLang==='pt'?['Carregando Portfolio...','Iniciando apps...','Quase pronto...']:['Loading Portfolio...','Starting apps...','Almost ready...'];
+  let mi=0;
+  const msgInt=setInterval(()=>{if(sub&&++mi<msgs.length)sub.textContent=msgs[mi]},700);
+  
+  setTimeout(()=>{
+    clearInterval(msgInt);
+    loading.classList.add('out');
+    setTimeout(()=>{
+      loading.remove();
+      // Init snake
+      snk.canvas=document.getElementById('snake-canvas');
+      if(snk.canvas){snk.ctx=snk.canvas.getContext('2d');snakeReset();}
+      // Notifications
+      setTimeout(()=>{
+        showNotif(
+          STRINGS[currentLang].welcome_notif_title,
+          STRINGS[currentLang].welcome_notif_msg,
+          0,'fa-solid fa-hand-wave','rgba(48,209,88,0.2)','#30D158'
+        );
+      },400);
+      setTimeout(()=>{
+        showNotif('Spotlight','⌘K '+( currentLang==='pt'?'para pesquisar qualquer coisa':'to search anything'),0,'fa-solid fa-magnifying-glass','rgba(94,92,230,0.2)','#BF5AF2');
+      },2000);
+    },800);
+  },2800);
+}
+
+document.addEventListener('DOMContentLoaded',init);
+</script>
 </body>
-
 </html>
